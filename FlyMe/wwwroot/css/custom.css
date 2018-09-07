@@ -1,0 +1,27 @@
+﻿.navbar-nav > li > a {
+    color: #fff !important;
+    font-size: 28px;
+}
+
+.navbar-nav > li > a:hover {
+    text-decoration-line: underline;
+}
+
+.navbar .navbar-nav {
+    margin-top: 16px;
+    margin-left: 8px;
+}
+
+.navbar .navbar-toggle {
+    margin-top: 18px;
+}
+
+.navbar {
+    background-color: #23a3e2;
+    border-bottom: hidden;
+}
+
+body {
+    padding-top: 90px;
+    padding-bottom: 20px;
+}
