@@ -1,0 +1,38 @@
+body {
+    background-color: #ecf2f9;
+}
+
+header {
+    text-align: center;
+}
+
+h1 {
+    color: navy;
+
+footer {
+	text-align: center;
+}
+
+.column {
+    float: left;
+}
+
+.column.left {
+    width: 40%;
+}
+
+.column.right {
+    width: 60%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@media screen and (max-width: 600px) {
+    .column.left, .column.right {
+        width: 100%;
+    }
+}
