@@ -1,20 +1,26 @@
 body {
     background-color: #ecf2f9;
+	text-align: center;
 }
 
 header {
     text-align: center;
+    padding: 20px;
 }
 
 h1 {
     color: navy;
+    margin-left: 20px;
+}
 
 footer {
-	text-align: center;
+	text-align: left;
+	padding: 20px;
 }
 
 .column {
     float: left;
+    padding: 30px;
 }
 
 .column.left {
