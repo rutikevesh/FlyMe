@@ -5,40 +5,46 @@ body {
 
 header {
     text-align: center;
-    padding: 20px;
+     padding: 20px; 
 }
 
 h1 {
     color: navy;
-    margin-left: 20px;
+     margin-left: 20px; 
 }
 
 footer {
 	text-align: left;
-	padding: 20px;
+	 padding: 20px; 
 }
 
 .column {
     float: left;
-    padding: 30px;
 }
 
 .column.left {
-    width: 40%;
+  width: 40%;
 }
 
 .column.right {
-    width: 60%;
+  width: 60%;
 }
 
+/* Clear floats after the columns */
 .row:after {
     content: "";
     display: table;
     clear: both;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1080px) {
     .column.left, .column.right {
         width: 100%;
     }
+}
+
+@font-face {
+	font-family: CardoBold;
+	src: url(C:\Users\Ruti Kevesh\Desktop\Final project - FlyMe\FlyMe\FlyMe\Fonts\Cardo-Bold.ttf));
+			
 }

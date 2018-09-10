@@ -22,59 +22,49 @@
 
 
 <body>
-    <header class="column left">
-        <h2>
-            Flyme - The best expiriance you can get in the sky
-        </h2>
-    </header>
-    <article class="column left">
-        <header>
-            <h5>Tweets by @traveldiarie</h5>
-        </header>
-        <a class="twitter-timeline" href="https://twitter.com/traveldiarie" data-widget-id="618673066764144641"></a>
-        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    <div class="row">
+        <div class="column left">
+            <header font-family="CardoBold">
+                <h1>
+                    Flyme - The best expiriance you can get in the sky
+                </h1>
+            </header>
+            <article>
+                <header>
+                    <h5>Tweets by @traveldiarie</h5>
+                </header>
+                <a class="twitter-timeline" href="https://twitter.com/traveldiarie" data-widget-id="618673066764144641"></a>
+                <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
 
-        <p>
-            The movie earned $87 million during its initial release.
-        </p>
+                <p>
+                    The movie earned $87 million during its initial release.
+                </p>
 
-    </article>
-
-    <section class="column right">
-        <figure>
-            <video width="600" height="450" controls autoplay>
-                <source src="C:\Users\Ruti Kevesh\Desktop\Final project - FlyMe\FlyMe\FlyMe\Pictures\PARADISE - PHILIPPINES TRAVEL - GOPRO TRIP.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <figcaption>Get yourself to paradise</figcaption>
-        </figure>
-    </section>
-
-    <div class="column right">
-        <iframe width="500" height="400" frameborder="0" src="https://www.bing.com/maps/embed?h=400&w=500&cp=32.084~34.88780000000002&lvl=11&typ=d&sty=h&src=SHELL&FORM=MBEDV8" scrolling="no"></iframe>
-        <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">
-            <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=32.084~34.88780000000002&amp;sty=h&amp;lvl=11&amp;FORM=MBEDLD">View Larger Map</a>
+            </article>
         </div>
+        <div class="column right">
+
+            <section>
+                <figure>
+                    <video width="600" height="450" controls autoplay>
+                        <source src="C:\Users\Ruti Kevesh\Desktop\Final project - FlyMe\FlyMe\FlyMe\Pictures\PARADISE - PHILIPPINES TRAVEL - GOPRO TRIP.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <figcaption>Get yourself to paradise</figcaption>
+                </figure>
+            </section>
+
+            <iframe width="500"
+                    height="400"
+                    frameborder="0"
+                    src="https://www.bing.com/maps/embed?h=400&w=500&cp=32.084~34.88780000000002&lvl=11&typ=d&sty=h&src=SHELL&FORM=MBEDV8"
+                    scrolling="no"></iframe>
+            <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">
+                <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=32.084~34.88780000000002&amp;sty=h&amp;lvl=11&amp;FORM=MBEDLD">View Larger Map</a>
+            </div>
+        </div>
+
     </div>
-
-
-    <div class="column left">
-        <canvas id="myCanvas" width="200" height="100" style="border:1px solid #FFFFFF;"></canvas>
-        <script>
-	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-
-	// Create gradient
-	var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
-	grd.addColorStop(0, "red");
-	grd.addColorStop(1, "white");
-
-	// Fill with gradient
-	ctx.fillStyle = grd;
-	ctx.fillRect(10, 10, 150, 80);
-        </script>
-    </div>
-
 
     <footer>
         <p>Written by: Ruti Kevesh</p>
@@ -85,7 +75,6 @@
             </a> .
         </p>
     </footer>
-
 
 </body>
 
