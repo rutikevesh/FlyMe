@@ -1,0 +1,47 @@
+﻿.navbar-nav > li > a {
+    color: #fff !important;
+    font-size: 34px;
+    transition: font-size 0.5s;
+    text-shadow: 2px 2px #000000;
+    font-family: serif;
+}
+
+.navbar-nav > li > a:hover {
+    text-decoration-line: underline;
+    font-size: 42px;
+}
+
+.navbar-nav > li {
+    border-right: 2px solid #fff;
+}
+
+.navbar-nav > li:last-child {
+    border: none;
+}
+
+#TopLogo {
+    height: auto;
+    border: 2px solid #fff;
+    padding: 10px;
+    border-radius: 25px;
+    margin: 4px 0px;
+}
+
+.navbar .navbar-nav {
+    margin-top: 14px;
+    margin-left: 50px;
+}
+
+.navbar .navbar-toggle {
+    margin-top: 18px;
+}
+
+.navbar {
+    background-color: #23a3e2;
+    border-bottom: hidden;
+}
+
+body {
+    padding-top: 90px;
+    padding-bottom: 20px;
+}
