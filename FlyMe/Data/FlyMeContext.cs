@@ -19,5 +19,9 @@ namespace FlyMe.Data
         public DbSet<FlyMe.Models.Airplane> Airplane { get; set; }
 
         public DbSet<FlyMe.Models.Airport> Airport { get; set; }
+
+        public DbSet<FlyMe.Models.Flight> Flight { get; set; }
+
+        public DbSet<FlyMe.Models.Ticket> Ticket { get; set; }
     }
 }
