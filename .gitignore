@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-Debug/
+﻿Debug/
 .exe
 .obj
 .lib
@@ -10,4 +9,5 @@ Debug/
 ################################################################################
 
 /FlyMe/Migrations
->>>>>>> pr/3
+FlyMe/obj/Debug/netcoreapp2.1/FlyMe.csproj.CoreCompileInputs.cache
+.vs/FlyMe/v15/Server/sqlite3/storage.ide-shm
