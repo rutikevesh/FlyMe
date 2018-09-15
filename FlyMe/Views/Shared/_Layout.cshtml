@@ -35,9 +35,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a></li>
+                    <li><a asp-area="" asp-controller="Statistics" asp-action="Index">Statistics</a></li>
                 </ul>
+                <aside>
+                    <ul class="nav navbar-nav" id="userButtonsInLayout">
+                        <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
+                        <li><a asp-area="" asp-controller="Users" asp-action="SignUp">Sign Up</a></li>
+                    </ul>
+                </aside>
             </div>
         </div>
     </nav>
@@ -48,7 +54,7 @@
         @RenderBody()
         <hr style="height:4px;border:none;background-color:#333;"/>
         <footer>
-            <p>&copy; 2018 Flyme, All Rights Reserved - Ronen, Ruti, Gana</p>
+            <p>&copy; 2018 Flyme, All Rights Reserved - Ronen, Ruti, Gaya</p>
         </footer>
     </div>
 
