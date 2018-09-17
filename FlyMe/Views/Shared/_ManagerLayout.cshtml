@@ -8,7 +8,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link href="~/css/layoutStyle.css" rel="stylesheet" />
+        <link href="~/css/ManagerLayoutStyle.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -46,6 +46,15 @@
                         </ul>
                     </aside>
                 </div>
+                <div class="container" id="managerOptions">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Airplanes" asp-action="Index">Airplanes</a></li>
+                        <li><a asp-area="" asp-controller="Airports" asp-action="Index">Airports</a></li>
+                        <li><a asp-area="" asp-controller="Flight" asp-action="Index">Flight</a></li>
+                        <li><a asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a></li>
+                        <li><a asp-area="" asp-controller="Users" asp-action="Index">Users</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -54,7 +63,7 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr style="height:4px;border:none;background-color:#333;"/>
+        <hr style="height:4px;border:none;background-color:#333;" />
         <footer>
             <p>&copy; 2018 Flyme, All Rights Reserved - Ronen, Ruti, Gaya</p>
         </footer>
