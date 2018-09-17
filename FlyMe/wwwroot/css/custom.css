@@ -1,7 +1,7 @@
 ﻿.navbar-nav > li > a {
     color: #fff !important;
     font-size: 34px;
-    transition: font-size 0.5s;
+    transition: font-size 0.3s;
     text-shadow: 2px 2px #000000;
     font-family: serif;
 }
@@ -42,10 +42,34 @@
 }
 
 body {
-    padding-top: 90px;
+    /*padding-top: 90px; without manager options*/
+    padding-top: 140px;
     padding-bottom: 20px;
 }
 
 #userButtonsInLayout {
     float : right;
+}
+
+#managerOptions {
+    text-align: center;
+}
+
+#managerOptions > ul {
+    display: inline-table;
+    margin: 0;
+    padding: 0;
+    float: none;
+}
+
+#managerOptions > ul > li {
+    display: inline;
+}
+
+#managerOptions > ul > li > a {
+    font-size: 20px;
+}
+
+#managerOptions > ul > li > a:hover {
+    font-size: 24px;
 }
