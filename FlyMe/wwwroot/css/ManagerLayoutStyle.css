@@ -42,13 +42,12 @@
 }
 
 body {
-    /*padding-top: 90px; without manager options*/
     padding-top: 140px;
     padding-bottom: 20px;
 }
 
 #userButtonsInLayout {
-    float : right;
+    float: right;
 }
 
 #managerOptions {
