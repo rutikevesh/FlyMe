@@ -43,3 +43,5 @@ FlyMe/obj/Debug/netcoreapp2.1/Razor/Views/Users/Delete.g.cshtml.cs
 FlyMe/obj/Debug/netcoreapp2.1/Razor/Views/Users/Details.g.cshtml.cs
 FlyMe/obj/Debug/netcoreapp2.1/Razor/Views/Users/Edit.g.cshtml.cs
 FlyMe/obj/Debug/netcoreapp2.1/Razor/Views/Users/Index.g.cshtml.cs
+.vs/FlyMe/v15/Server/sqlite3/storage.ide
+.vs/FlyMe/v15/Server/sqlite3/storage.ide-wal
