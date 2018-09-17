@@ -14,5 +14,9 @@ namespace FlyMe.Models
         public string Country { get; set; }
 
         public int City { get; set; }
+
+        //public double Longitude { get; set; }
+
+        //public double Latitude { get; set; }
     }
 }
