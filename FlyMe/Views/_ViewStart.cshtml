@@ -1,12 +1,13 @@
 ﻿@{
-    bool isManager = true;
+    string layout = "_Layout";
 
-    if(isManager)
+    if (ViewBag.IsManager != null)
     {
-        Layout = "_ManagerLayout";
+        if (ViewBag.IsManager)
+        {
+            layout = "_ManagerLayout";
+        }
     }
-    else
-    {
-        Layout = "_Layout";
-    }
+
+    Layout = layout;
 }
