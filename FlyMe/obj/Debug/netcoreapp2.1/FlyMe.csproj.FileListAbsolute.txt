@@ -94,3 +94,13 @@ D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.Views.pdb
 D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.dll
 D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.pdb
 D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.csproj.CopyComplete
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flight\Create.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flight\Delete.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flight\Details.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flight\Edit.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flight\Index.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Create.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Delete.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Details.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Edit.g.cshtml.cs
+D:\WorkSpace\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Index.g.cshtml.cs
