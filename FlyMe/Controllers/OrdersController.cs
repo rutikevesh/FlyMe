@@ -10,22 +10,22 @@ using FlyMe.Models;
 
 namespace FlyMe.Controllers
 {
-    public class UsersController : Controller
+    public class OrdersController : Controller
     {
         private readonly FlyMeContext _context;
 
-        public UsersController(FlyMeContext context)
+        public OrdersController(FlyMeContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View(await _context.Ticket.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (user == null)
+            var ticket = await _context.Ticket
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (ticket == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(ticket);
         }
 
-        // GET: Users/Create
+        // GET: Orders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserName,Password,FirstName,LastName,Email,IsManager")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Price,Seat,LuggageWeight")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(ticket);
         }
 
-        // GET: Users/Edit/5
+        // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var ticket = await _context.Ticket.FindAsync(id);
+            if (ticket == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(ticket);
         }
 
-        // POST: Users/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,FirstName,LastName,Email,IsManager")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Price,Seat,LuggageWeight")] Ticket ticket)
         {
-            if (id != user.ID)
+            if (id != ticket.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace FlyMe.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.ID))
+                    if (!TicketExists(ticket.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace FlyMe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(ticket);
         }
 
-        // GET: Users/Delete/5
+        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (user == null)
+            var ticket = await _context.Ticket
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (ticket == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(ticket);
         }
 
-        // POST: Users/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            var ticket = await _context.Ticket.FindAsync(id);
+            _context.Ticket.Remove(ticket);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool TicketExists(int id)
         {
-            return _context.User.Any(e => e.ID == id);
+            return _context.Ticket.Any(e => e.Id == id);
         }
     }
 }
