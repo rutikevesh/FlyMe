@@ -1,45 +1,51 @@
 ﻿@model IEnumerable<FlyMe.Models.Ticket>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders";
 }
 
-<h2>Index</h2>
+<h2>Avaliable Tickets to Order:</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Flight Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Seat)
+                Airplane Model
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LuggageWeight)
+                Source Airport
             </th>
-            <th></th>
+            <th>
+                Destination Airport
+            </th>
+            <th>
+                Price
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>a
+                @Html.DisplayFor(modelItem => item.Flight.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Seat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LuggageWeight)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Buy" asp-route-id="@item.Id">Buy Now!</a>
             </td>
         </tr>
 }
