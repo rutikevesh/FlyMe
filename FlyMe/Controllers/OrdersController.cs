@@ -27,7 +27,10 @@ namespace FlyMe.Controllers
                                              .Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.SourceAirport)
                                              .Include(ticket => ticket.Flight)
-                                                .ThenInclude(Flight => Flight.DestAirport).ToListAsync());
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                                                 .Where(ticket => ticket.Buyer == null)
+                                                .OrderBy(ticket => ticket.Flight.Date)
+                                                .ToListAsync());
         }
 
         // GET: Orders/Buy/*id*
@@ -51,6 +54,28 @@ namespace FlyMe.Controllers
         private bool TicketExists(int id)
         {
             return _context.Ticket.Any(e => e.Id == id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(DateTime? date, string from, string to, int maxPrice)
+        {
+            var dayAfterDate = date?.AddDays(1);
+
+            return View("Index",
+                await _context.Ticket.Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.Airplane)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.SourceAirport)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                    .Where(ticket =>
+                    (!date.HasValue || !dayAfterDate.HasValue ||(date <= ticket.Flight.Date && ticket.Flight.Date < dayAfterDate)) &&
+                    (string.IsNullOrEmpty(from) || ticket.Flight.SourceAirport.Country.ToLower().Contains(from.ToLower()) || ticket.Flight.SourceAirport.City.ToLower().Contains(from.ToLower())) &&
+                    (string.IsNullOrEmpty(to) || ticket.Flight.DestAirport.Country.ToLower().Contains(to.ToLower()) || ticket.Flight.DestAirport.City.ToLower().Contains(from.ToLower())) &&
+                    ((maxPrice <= 0) || (maxPrice >= ticket.Price)) &&
+                    (ticket.Buyer == null))
+                    .OrderBy(ticket => ticket.Flight.Date)
+                    .ToListAsync());
         }
     }
 }
