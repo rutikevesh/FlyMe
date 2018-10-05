@@ -115,6 +115,7 @@ namespace FlyMe.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired();
 
+
                     b.Property<bool>("IsManager");
 
                     b.Property<string>("LastName")
