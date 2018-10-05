@@ -18,12 +18,11 @@ namespace FlyMe.Models
         [Required]
         public int Price { get; set; }
 
-
+        [Required]
         public string Seat { get; set; }
 
         public int LuggageWeight { get; set; }
 
-        [Required]
         public User Buyer { get; set; }
     }
 }

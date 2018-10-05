@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FlyMe.Models;
+using FlyMe.Data;
 
 namespace FlyMe.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(FlyMeContext context)
         {
             return View();
         }

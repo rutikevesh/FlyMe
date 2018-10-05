@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlyMe.Data;
+using FlyMe.Models;
 
-namespace FlyMe.Models
+namespace FlyMe.Controllers
 {
     public class AirportsController : Controller
     {
@@ -53,7 +54,7 @@ namespace FlyMe.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Country,City")] Airport airport)
+        public async Task<IActionResult> Create([Bind("ID,Country,City,Longitude,Latitude,Acronyms")] Airport airport)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace FlyMe.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Country,City")] Airport airport)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Country,City,Longitude,Latitude,Acronyms")] Airport airport)
         {
             if (id != airport.ID)
             {
