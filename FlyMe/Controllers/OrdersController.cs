@@ -65,7 +65,7 @@ namespace FlyMe.Controllers
             ViewBag.from = from;
             ViewBag.to = to;
 
-            if(maxPrice > 0)
+            if (maxPrice > 0)
                 ViewBag.maxPrice = maxPrice;
 
             var dayAfterDate = date?.AddDays(1);
@@ -78,12 +78,32 @@ namespace FlyMe.Controllers
                                              .Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.DestAirport)
                     .Where(ticket =>
-                    (!date.HasValue || !dayAfterDate.HasValue ||(date <= ticket.Flight.Date && ticket.Flight.Date < dayAfterDate)) &&
+                    (!date.HasValue || !dayAfterDate.HasValue || (date <= ticket.Flight.Date && ticket.Flight.Date < dayAfterDate)) &&
                     (string.IsNullOrEmpty(from) || ticket.Flight.SourceAirport.Country.ToLower().Contains(from.ToLower()) || ticket.Flight.SourceAirport.City.ToLower().Contains(from.ToLower())) &&
                     (string.IsNullOrEmpty(to) || ticket.Flight.DestAirport.Country.ToLower().Contains(to.ToLower()) || ticket.Flight.DestAirport.City.ToLower().Contains(to.ToLower())) &&
                     ((maxPrice <= 0) || (maxPrice >= ticket.Price)) &&
                     (ticket.Buyer == null))
                     .OrderBy(ticket => ticket.Flight.Date)
+                    .ToListAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MostSoldFlightsView()
+        {
+            return View(await _context.Ticket.Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.Airplane)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.SourceAirport)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                    .Where(ticket => (ticket.Buyer != null))
+                    .GroupBy(ticket => ticket.Flight)
+                    .Select(o => new SoldFlightsView
+                    {
+                        Flight = o.Key,
+                        TicketsSold = o.Count()
+                    })
+                    .OrderByDescending(o => o.TicketsSold)
                     .ToListAsync());
         }
     }
