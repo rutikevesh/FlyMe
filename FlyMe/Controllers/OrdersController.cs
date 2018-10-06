@@ -59,6 +59,15 @@ namespace FlyMe.Controllers
         [HttpGet]
         public async Task<IActionResult> Search(DateTime? date, string from, string to, int maxPrice)
         {
+            if (date.HasValue)
+                ViewBag.date = date.Value.ToString("yyyy-MM-dd");
+
+            ViewBag.from = from;
+            ViewBag.to = to;
+
+            if(maxPrice > 0)
+                ViewBag.maxPrice = maxPrice;
+
             var dayAfterDate = date?.AddDays(1);
 
             return View("Index",
@@ -71,7 +80,7 @@ namespace FlyMe.Controllers
                     .Where(ticket =>
                     (!date.HasValue || !dayAfterDate.HasValue ||(date <= ticket.Flight.Date && ticket.Flight.Date < dayAfterDate)) &&
                     (string.IsNullOrEmpty(from) || ticket.Flight.SourceAirport.Country.ToLower().Contains(from.ToLower()) || ticket.Flight.SourceAirport.City.ToLower().Contains(from.ToLower())) &&
-                    (string.IsNullOrEmpty(to) || ticket.Flight.DestAirport.Country.ToLower().Contains(to.ToLower()) || ticket.Flight.DestAirport.City.ToLower().Contains(from.ToLower())) &&
+                    (string.IsNullOrEmpty(to) || ticket.Flight.DestAirport.Country.ToLower().Contains(to.ToLower()) || ticket.Flight.DestAirport.City.ToLower().Contains(to.ToLower())) &&
                     ((maxPrice <= 0) || (maxPrice >= ticket.Price)) &&
                     (ticket.Buyer == null))
                     .OrderBy(ticket => ticket.Flight.Date)
