@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlyMe.Data;
+using FlyMe.Models;
 
-namespace FlyMe.Models
+namespace FlyMe.Controllers
 {
     public class AirplanesController : Controller
     {

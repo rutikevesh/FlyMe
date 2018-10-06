@@ -57,7 +57,6 @@ D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyM
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.csproj.CoreCompileInputs.cache
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.RazorAssemblyInfo.cache
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.RazorAssemblyInfo.cs
-D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.AssemblyInfoInputs.cache
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.AssemblyInfo.cs
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.TagHelpers.input.cache
@@ -94,3 +93,16 @@ D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyM
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.dll
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.pdb
 D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\FlyMe.csproj.CopyComplete
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flights\Create.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flights\Delete.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flights\Details.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flights\Edit.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Flights\Index.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Orders\Index.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ManagerLayout.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Create.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Delete.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Details.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Edit.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\Razor\Views\Tickets\Index.g.cshtml.cs
+D:\קבצי משתמש\Documents\GitHub\FlyMe\FlyMe\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
