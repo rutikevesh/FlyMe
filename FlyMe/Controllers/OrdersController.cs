@@ -106,5 +106,23 @@ namespace FlyMe.Controllers
                     .OrderByDescending(o => o.TicketsSold)
                     .ToListAsync());
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UserTicketsView(int userId)
+        {
+            return View(await _context.Ticket.Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.Airplane)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.SourceAirport)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                    .Join(_context.User,
+                        ticket => ticket.Buyer.ID,
+                        user => user.ID,
+                        (ticket, user) => ticket)
+                    .Where(ticket => (ticket.Buyer.ID == 1))
+                    .OrderByDescending(ticket => ticket.Flight.Date)
+                    .ToListAsync());
+        }
     }
 }

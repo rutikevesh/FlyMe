@@ -7,7 +7,7 @@
 @using (Html.BeginForm("Search", "Orders", FormMethod.Get))
 {
     <div class="container">
-        <div class="row">
+        <div>
             <div class="form-group col-md-2">
                 <div>
                     Flight Date:
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group col-md-2">
                 <div>
-                    <input type="submit" value="Search" class="btn btn-default" style="position: absolute; top: 20px" />
+                    <input type="submit" value="Search" class="btn btn-primary" style="position: absolute; top: 16px" />
                 </div>
             </div>
         </div>
@@ -51,10 +51,14 @@
 
 <hr />
 
-@using (Html.BeginForm("MostSoldFlightsView", "Orders", FormMethod.Get))
-{
-    <input type="submit" value="Show most sold flights" class="btn btn-default" />
-}
+<div class="container">
+    <div class="col-md-4">
+        <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+    </div>
+    <div class="col-md-4">
+        <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
+    </div>
+</div>
 
 <hr />
 
