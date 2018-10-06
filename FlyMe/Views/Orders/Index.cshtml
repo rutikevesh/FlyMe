@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FlyMe.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Avaliable Tickets to Order:</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Flight Date
+            </th>
+            <th>
+                Airplane Model
+            </th>
+            <th>
+                Source Airport
+            </th>
+            <th>
+                Destination Airport
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>a
+                @Html.DisplayFor(modelItem => item.Flight.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a asp-action="Buy" asp-route-id="@item.Id">Buy Now!</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

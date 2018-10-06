@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlyMe.Data;
+using FlyMe.Models;
 
-namespace FlyMe.Models
+namespace FlyMe.Controllers
 {
     public class UsersController : Controller
     {
@@ -53,7 +54,7 @@ namespace FlyMe.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserName,Password,FirstName,LastName")] User user)
+        public async Task<IActionResult> Create([Bind("ID,UserName,Password,FirstName,LastName,Email,IsManager")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace FlyMe.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,FirstName,LastName")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,FirstName,LastName,Email,IsManager")] User user)
         {
             if (id != user.ID)
             {
