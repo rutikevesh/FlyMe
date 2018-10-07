@@ -41,11 +41,29 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket.FirstOrDefaultAsync(m => m.Id == id);
+            var ticketBought = await _context.Ticket.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ticket == null)
+            if (ticketBought == null)
             {
                 return NotFound();
+            }
+
+            try
+            {
+                ticketBought.Buyer = await _context.User.FirstOrDefaultAsync(m => m.ID == 1);
+                _context.Update(ticketBought);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TicketExists(ticketBought.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToAction(nameof(Index));
