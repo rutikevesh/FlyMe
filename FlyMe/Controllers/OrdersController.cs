@@ -51,6 +51,30 @@ namespace FlyMe.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Orders/MoreInfo/*id*
+        public async Task<IActionResult> MoreInfo(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var selectedTicket = await _context.Ticket.Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.Airplane)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.SourceAirport)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                                             .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (selectedTicket == null)
+            {
+                return NotFound();
+            }
+
+            return View(selectedTicket);
+        }
+
         private bool TicketExists(int id)
         {
             return _context.Ticket.Any(e => e.Id == id);

@@ -1,0 +1,77 @@
+﻿@model FlyMe.Models.Ticket
+
+@{
+    ViewData["Title"] = "More Information";
+}
+
+<h2>More information about the ticket:</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Date Of Flight
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Date)
+        </dd>
+        <dt>
+            Airplane Model
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Airplane.Model)
+        </dd>
+        <dt>
+            Source Airport Country
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.SourceAirport.Country)
+        </dd>
+        <dt>
+            Source Airport City
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.SourceAirport.City)
+        </dd>
+        <dt>
+            Dest Airport Country
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.DestAirport.Country)
+        </dd>
+        <dt>
+            Dest Airport City
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.DestAirport.City)
+        </dd>
+        <dt>
+            Price
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            Seat
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Seat)
+        </dd>
+        <dt>
+            Luggage Weight
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LuggageWeight)
+        </dd>
+        <dt>
+            Airplane Capacity
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Airplane.Capacity)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to Orders</a> |
+    <a asp-action="Buy" asp-route-id="@Model.Id">Buy</a>
+</div>
