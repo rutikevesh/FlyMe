@@ -1,0 +1,27 @@
+﻿@model IEnumerable<FlyMe.Models.User>
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2 style="text-align:center">Login</h2 ]>
+
+<div class="container-fluid">
+    <div class="card">
+        @using (Html.BeginForm("Login", "Users"))
+        {
+            @Html.AntiForgeryToken()
+        <div class="form-group" style="width:400px;margin-left:360px">
+            <input type="text" name="username" class="form-control" placeholder="UserName">
+            <br />
+            <input type="password" name="password" class="form-control" placeholder="Password">
+            <br />
+        </div>
+        <div style="display:flex;margin-left:450px">
+            @Html.ActionLink("Register", "Create", "Users", new { area = "" }, new { @class = "btn" })
+            <button type="submit" class="btn btn-primary" style="margin-right: 5px">Sign in</button>
+        </div>
+        }
+    </div>
+
+</div>

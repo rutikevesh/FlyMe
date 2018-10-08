@@ -13,6 +13,17 @@ h1 {
      margin-left: 20px; 
 }
 
+.logo {
+    width: 10rem;
+    transition: all 0.3s ease;
+}
+
+    .logo:hover {
+        -webkit-transform: rotateZ(-30deg);
+        -ms-transform: rotateZ(-30deg);
+        transform: rotateZ(-30deg);
+    }
+
 footer {
 	text-align: left;
 	 padding: 20px; 
