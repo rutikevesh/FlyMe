@@ -30,6 +30,10 @@ footer {
   width: 60%;
 }
 
+.weater {
+    -webkit-column-span: all;
+}
+
 /* Clear floats after the columns */
 .row:after {
     content: "";
