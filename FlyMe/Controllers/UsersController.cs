@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlyMe.Data;
 using FlyMe.Models;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace FlyMe.Controllers
 {
@@ -58,6 +57,47 @@ namespace FlyMe.Controllers
         {
             if (ModelState.IsValid)
             {
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(user);
+        }
+
+        // GET: Users/Create
+        public IActionResult SignUp()
+
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignUp([Bind("ID,UserName,Password,FirstName,LastName,Email")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                user.IsManager = false;
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(user);
+        }
+
+        // GET: Users/Create
+        public IActionResult SignUpAsManager()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignUpAsManager([Bind("ID,UserName,Password,FirstName,LastName,Email")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                user.IsManager = true;
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -143,6 +183,52 @@ namespace FlyMe.Controllers
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult FailedLogin()
+        {
+            return View("FailedLogin");
+        }
+
+        public ActionResult FailedLogout()
+        {
+            return View("FailedLogout");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout([Bind("UserName,Password")] User loginCredentials)
+        {
+            var user = _context.User.SingleOrDefault(u => u.UserName.Equals(loginCredentials.UserName) && u.Password.Equals(loginCredentials.Password));
+            if (user == null)
+            {
+                return RedirectToAction("FailedLogout", "Users");
+            }
+            else  {
+                HttpContext.Session.Remove("UserId");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login([Bind("UserName,Password")] User loginCredentials)
+        {
+            var user = _context.User.SingleOrDefault(u => u.UserName.Equals(loginCredentials.UserName) && u.Password.Equals(loginCredentials.Password));
+            if (user == null)
+            {
+                return RedirectToAction("FailedLogin", "Users");
+            }
+
+            HttpContext.Session.SetInt32("UserId", user.ID);
+
+            return RedirectToAction("Index", "Home");
         }
 
         private bool UserExists(int id)
