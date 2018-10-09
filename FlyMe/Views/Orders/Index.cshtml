@@ -52,12 +52,21 @@
 <hr />
 
 <div class="container">
-    <div class="col-md-6" align="center">
-        <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
-    </div>
-    <div class="col-md-6" align="center">
-        <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
-    </div>
+    @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+    {
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
+        </div>
+    }
+    else
+    {
+        <div align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+    }
 </div>
 
 @if (ViewBag.RecommendedTicket != null)
@@ -107,9 +116,18 @@
                 <td>
                     <a asp-action="MoreInfo" asp-route-id="@ViewBag.RecommendedTicket.Id">More Info</a>
                 </td>
-                <td>
-                    <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
-                </td>
+                @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                {
+                    <td>
+                        <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Login to buy", "Login", "Users")
+                    </td>
+                }
             </tr>
         </tbody>
     </table>
@@ -144,38 +162,38 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="MoreInfo" asp-route-id="@item.Id">More Info</a>
+                </td>
+                @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Flight.Date)
+                        <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
                     </td>
+                }
+                else
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+                        @Html.ActionLink("Login to buy", "Login", "Users")
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        <a asp-action="MoreInfo" asp-route-id="@item.Id">More Info</a>
-                    </td>
-                    @if (item.Buyer == null)
-                    {
-                        <td>
-                            <a asp-action="Buy" asp-route-id="@item.Id">Buy Now!</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            Sold
-                        </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

@@ -25,6 +25,8 @@ namespace FlyMe.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
+            checkIfLoginAndManager();
+
             int? recommendedDestAirportId = getRecommendedDestinationIdForCurrentUser();
             ViewBag.RecommendedTicket = getRecommendedTicketByDestFlightId(recommendedDestAirportId);
 
@@ -54,9 +56,16 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             try
             {
-                ticketBought.Buyer = await _context.User.FirstOrDefaultAsync(m => m.ID == 1);
+                ticketBought.Buyer = await _context.User.FirstOrDefaultAsync(m => m.ID == currentUserId);
                 _context.Update(ticketBought);
                 await _context.SaveChangesAsync();
             }
@@ -158,6 +167,13 @@ namespace FlyMe.Controllers
         [HttpGet]
         public async Task<IActionResult> UserTicketsView(int userId)
         {
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(await _context.Ticket.Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.Airplane)
                                              .Include(ticket => ticket.Flight)
@@ -168,7 +184,7 @@ namespace FlyMe.Controllers
                         ticket => ticket.Buyer.ID,
                         user => user.ID,
                         (ticket, user) => ticket)
-                    .Where(ticket => (ticket.Buyer.ID == 1))
+                    .Where(ticket => (ticket.Buyer.ID == currentUserId))
                     .OrderByDescending(ticket => ticket.Flight.Date)
                     .ToListAsync());
         }
@@ -221,12 +237,18 @@ namespace FlyMe.Controllers
             knn.Learn(inputs, outputs);
 
             // Get the current login user info
-            var currentUser = _context.User.FirstOrDefault(u => u.ID == 1);
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
 
-            if (currentUser != null)
+            if (currentUserId != null)
             {
-                double[] currentUserAge = new double[] { currentUser.Age };
-                return knn.Decide(currentUserAge);
+                var currentUser = _context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    // Decide where the current user would like to travel to
+                    double[] currentUserAge = new double[] { currentUser.Age };
+                    return knn.Decide(currentUserAge);
+                }
             }
 
             return null;
@@ -247,6 +269,22 @@ namespace FlyMe.Controllers
                                                 .ThenInclude(Flight => Flight.DestAirport)
                                             .Where(ticket => (ticket.Buyer != null))
                                             .FirstOrDefault(ticket => ticket.Flight.DestAirport.ID == destAirportId);
+        }
+
+        private void checkIfLoginAndManager()
+        {
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId != null)
+            {
+                var currentUser = _context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    ViewBag.IsLogin = true;
+                    ViewBag.IsManager = currentUser.IsManager;
+                }
+            }
         }
     }
 }

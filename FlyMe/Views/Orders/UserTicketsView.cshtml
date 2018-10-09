@@ -52,12 +52,21 @@
 <hr />
 
 <div class="container">
-    <div class="col-md-6" align="center">
-        <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
-    </div>
-    <div class="col-md-6" align="center">
-        <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
-    </div>
+    @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+    {
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
+        </div>
+    }
+    else
+    {
+        <div align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+    }
 </div>
 
 <hr />
