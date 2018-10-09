@@ -11,9 +11,17 @@ namespace FlyMe.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index(FlyMeContext context)
+        private readonly FlyMeContext _context;
+
+        public HomeController(FlyMeContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public IActionResult Index()
+        {
+
+            return View(_context.Airport.ToList());
         }
 
         public IActionResult About()
@@ -40,5 +48,8 @@ namespace FlyMe.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
+
 }
