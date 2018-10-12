@@ -31,6 +31,10 @@ namespace FlyMe.Models
         public string LastName { get; set; }
 
         [Required]
+        public int Age { get; set; }
+
+        [EmailAddress]
+        [Required]
         public string Email { get; set; }
 
         public Boolean IsManager { get; set; }
