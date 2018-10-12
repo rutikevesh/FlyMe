@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FlyMe.Models;
 using FlyMe.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlyMe.Controllers
 {
@@ -49,7 +50,28 @@ namespace FlyMe.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [AllowAnonymous]
+        public IActionResult AirportLocations()
+        {
+            var AirportLocations =
+                from Airport in _context.Airport
+                select new Location
+                {
+                    longitude = Airport.Longitude,
+                    latitude = Airport.Latitude,
+                    acronyms = Airport.Acronyms
+                };
 
+            return Json(AirportLocations.ToList());
+        }
+
+    }
+
+    public class Location
+    {
+        public double longitude;
+        public double latitude;
+        public string acronyms;
     }
 
 }

@@ -6,6 +6,7 @@ using FlyMe.Data;
 using FlyMe.Models;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Session;
 
 namespace FlyMe.Controllers
 {
@@ -53,7 +54,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserName,Password,FirstName,LastName,Email,IsManager")] User user)
+        public async Task<IActionResult> Create([Bind("ID,UserName,Password,FirstName,LastName,Age,Email,IsManager")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +74,7 @@ namespace FlyMe.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp([Bind("ID,UserName,Password,FirstName,LastName,Email")] User user)
+        public async Task<IActionResult> SignUp([Bind("ID,UserName,Password,FirstName,LastName,Age,Email")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +94,7 @@ namespace FlyMe.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUpAsManager([Bind("ID,UserName,Password,FirstName,LastName,Email")] User user)
+        public async Task<IActionResult> SignUpAsManager([Bind("ID,UserName,Password,FirstName,Age,LastName,Email")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +127,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,FirstName,LastName,Email,IsManager")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,FirstName,LastName,Age,Email,IsManager")] User user)
         {
             if (id != user.ID)
             {
@@ -227,7 +228,7 @@ namespace FlyMe.Controllers
             }
 
             HttpContext.Session.SetInt32("UserId", user.ID);
-
+       
             return RedirectToAction("Index", "Home");
         }
 
@@ -235,5 +236,6 @@ namespace FlyMe.Controllers
         {
             return _context.User.Any(e => e.ID == id);
         }
+
     }
 }

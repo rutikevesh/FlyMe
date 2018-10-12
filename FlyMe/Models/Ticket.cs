@@ -12,8 +12,10 @@ namespace FlyMe.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public Flight Flight { get; set; }
+
+        [Required]
+        public int FlightId { get; set;}
 
         [Required]
         public int Price { get; set; }
@@ -24,5 +26,7 @@ namespace FlyMe.Models
         public int LuggageWeight { get; set; }
 
         public User Buyer { get; set; }
+
+        public int UserId { get; set; }
     }
 }

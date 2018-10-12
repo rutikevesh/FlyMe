@@ -19,13 +19,14 @@ namespace FlyMe.Controllers
             _context = context;
         }
 
-        // GET: Flight
+        // GET: Flights
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Flight.ToListAsync());
+            var flyMeContext = _context.Flight.Include(f => f.Airplane);
+            return View(await flyMeContext.ToListAsync());
         }
 
-        // GET: Flight/Details/5
+        // GET: Flights/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,6 +35,7 @@ namespace FlyMe.Controllers
             }
 
             var flight = await _context.Flight
+                .Include(f => f.Airplane)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (flight == null)
             {
@@ -43,29 +45,33 @@ namespace FlyMe.Controllers
             return View(flight);
         }
 
-        // GET: Flight/Create
+        // GET: Flights/Create
         public IActionResult Create()
         {
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id");
+            ViewData["DestAirport"] = new SelectList(_context.Airport);
             return View();
         }
 
-        // POST: Flight/Create
+        // POST: Flights/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date")] Flight flight)
+        public async Task<IActionResult> Create([Bind("Id,SourceAirportName,DestAirportName,DestAirport,SourceAirport,AirplaneId,Date")] Flight flight)
         {
-            if (ModelState.IsValid)
-            {
+                flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName));
+                flight.DestAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(flight.AirplaneId));
                 _context.Add(flight);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id", flight.AirplaneId);
+            ViewData["DestAirport"] = new SelectList(_context.Airport, flight.DestAirport);
             return View(flight);
         }
 
-        // GET: Flight/Edit/5
+        // GET: Flights/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +84,16 @@ namespace FlyMe.Controllers
             {
                 return NotFound();
             }
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id", flight.AirplaneId);
             return View(flight);
         }
 
-        // POST: Flight/Edit/5
+        // POST: Flights/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date")] Flight flight)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DestAirport,SourceAirport,AirplaneId,Date")] Flight flight)
         {
             if (id != flight.Id)
             {
@@ -99,6 +106,9 @@ namespace FlyMe.Controllers
                 {
                     _context.Update(flight);
                     await _context.SaveChangesAsync();
+                    flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName)); flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                    flight.DestAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                    flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(flight.AirplaneId));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,10 +123,11 @@ namespace FlyMe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id", flight.AirplaneId);
             return View(flight);
         }
 
-        // GET: Flight/Delete/5
+        // GET: Flights/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,6 +136,7 @@ namespace FlyMe.Controllers
             }
 
             var flight = await _context.Flight
+                .Include(f => f.Airplane)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (flight == null)
             {
@@ -134,7 +146,7 @@ namespace FlyMe.Controllers
             return View(flight);
         }
 
-        // POST: Flight/Delete/5
+        // POST: Flights/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

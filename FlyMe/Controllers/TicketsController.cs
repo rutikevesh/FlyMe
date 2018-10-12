@@ -22,7 +22,8 @@ namespace FlyMe.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ticket.ToListAsync());
+            var flyMeContext = _context.Ticket.Include(t => t.Buyer).Include(t => t.Flight);
+            return View(await flyMeContext.ToListAsync());
         }
 
         // GET: Tickets/Details/5
@@ -34,6 +35,8 @@ namespace FlyMe.Controllers
             }
 
             var ticket = await _context.Ticket
+                .Include(t => t.Buyer)
+                .Include(t => t.Flight)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
@@ -46,6 +49,8 @@ namespace FlyMe.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.User, "ID", "Email");
+            ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport");
             return View();
         }
 
@@ -54,14 +59,18 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Price,Seat,LuggageWeight")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,FlightId,Price,Seat,LuggageWeight,UserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.Flight = _context.Flight.SingleOrDefault(a => a.Id.Equals(ticket.FlightId));
+                ticket.Buyer = _context.User.SingleOrDefault(a => a.ID.Equals(ticket.UserId));
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.User, "ID", "Email", ticket.UserId);
+            ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport", ticket.FlightId);
             return View(ticket);
         }
 
@@ -78,6 +87,8 @@ namespace FlyMe.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.User, "ID", "Email", ticket.UserId);
+            ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport", ticket.FlightId);
             return View(ticket);
         }
 
@@ -86,7 +97,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Price,Seat,LuggageWeight")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FlightId,Price,Seat,LuggageWeight,UserId")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -97,6 +108,8 @@ namespace FlyMe.Controllers
             {
                 try
                 {
+                    ticket.Flight = _context.Flight.SingleOrDefault(a => a.Id.Equals(ticket.FlightId));
+                    ticket.Buyer = _context.User.SingleOrDefault(a => a.ID.Equals(ticket.UserId));
                     _context.Update(ticket);
                     await _context.SaveChangesAsync();
                 }
@@ -113,6 +126,8 @@ namespace FlyMe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.User, "ID", "Email", ticket.UserId);
+            ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport", ticket.FlightId);
             return View(ticket);
         }
 
@@ -125,6 +140,8 @@ namespace FlyMe.Controllers
             }
 
             var ticket = await _context.Ticket
+                .Include(t => t.Buyer)
+                .Include(t => t.Flight)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
