@@ -86,7 +86,7 @@ namespace FlyMe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BuyerID");
+                    b.Property<int?>("BuyerID");
 
                     b.Property<int>("FlightId");
 
@@ -94,7 +94,8 @@ namespace FlyMe.Migrations
 
                     b.Property<int>("Price");
 
-                    b.Property<string>("Seat");
+                    b.Property<string>("Seat")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -114,7 +115,6 @@ namespace FlyMe.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired();
-
 
                     b.Property<bool>("IsManager");
 
@@ -151,8 +151,7 @@ namespace FlyMe.Migrations
                 {
                     b.HasOne("FlyMe.Models.User", "Buyer")
                         .WithMany()
-                        .HasForeignKey("BuyerID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BuyerID");
 
                     b.HasOne("FlyMe.Models.Flight", "Flight")
                         .WithMany()

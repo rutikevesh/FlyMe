@@ -1,10 +1,16 @@
 ﻿@model FlyMe.Models.Ticket
 
 @{
-    ViewData["Title"] = "Create";
-}
+    ViewData["Title"] = "Create";}
 
-<h2>Create</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
 
 <h4>Ticket</h4>
 <hr />
@@ -12,6 +18,10 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FlightId" class="control-label"></label>
+                <select asp-for="FlightId" class ="form-control" asp-items="ViewBag.FlightId"></select>
+            </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
@@ -28,6 +38,10 @@
                 <span asp-validation-for="LuggageWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
@@ -38,6 +52,5 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</body>
+</html>

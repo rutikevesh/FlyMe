@@ -5,13 +5,25 @@ body {
 
 header {
     text-align: center;
-     padding: 20px; 
+    padding: 20px;
+    -webkit-column-span: all;
 }
 
 h1 {
     color: navy;
-     margin-left: 20px; 
+    margin-left: 20px;
 }
+
+.logo {
+    width: 10rem;
+    transition: all 0.3s ease;
+}
+
+    .logo:hover {
+        -webkit-transform: rotateZ(-30deg);
+        -ms-transform: rotateZ(-30deg);
+        transform: rotateZ(-30deg);
+    }
 
 footer {
 	text-align: left;
@@ -28,6 +40,10 @@ footer {
 
 .column.right {
   width: 60%;
+}
+
+.weater {
+    -webkit-column-span: all;
 }
 
 /* Clear floats after the columns */
