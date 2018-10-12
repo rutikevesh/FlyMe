@@ -43,6 +43,7 @@
                         <ul class="nav navbar-nav" id="userButtonsInLayout">
                             @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
                             {
+                                <li><a asp-area="" asp-controller="Orders" asp-action="UserTicketsView">@ViewBag.LoginUserName</a></li>
                                 <li><a asp-area="" asp-controller="Users" asp-action="Logout">Logout</a></li>
                             }
                             else
