@@ -21,12 +21,13 @@ namespace FlyMe.Controllers
 
         public IActionResult Index()
         {
-
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View(_context.Airport.ToList());
         }
 
         public IActionResult About()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             ViewData["Message"] = "Your application description page.";
 
             return View();
@@ -34,6 +35,7 @@ namespace FlyMe.Controllers
 
         public IActionResult Contact()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             ViewData["Message"] = "Your contact page.";
 
             return View();
@@ -41,6 +43,7 @@ namespace FlyMe.Controllers
 
         public IActionResult Privacy()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View();
         }
 

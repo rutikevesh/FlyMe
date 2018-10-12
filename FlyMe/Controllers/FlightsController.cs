@@ -22,6 +22,13 @@ namespace FlyMe.Controllers
         // GET: Flights
         public async Task<IActionResult> Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             var flyMeContext = _context.Flight.Include(f => f.Airplane);
             return View(await flyMeContext.ToListAsync());
         }
@@ -29,6 +36,13 @@ namespace FlyMe.Controllers
         // GET: Flights/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +62,13 @@ namespace FlyMe.Controllers
         // GET: Flights/Create
         public IActionResult Create()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id");
             ViewData["DestAirport"] = new SelectList(_context.Airport);
             return View();
@@ -60,7 +81,14 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SourceAirportName,DestAirportName,DestAirport,SourceAirport,AirplaneId,Date")] Flight flight)
         {
-                flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName));
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
+            flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName));
                 flight.DestAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
                 flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(flight.AirplaneId));
                 _context.Add(flight);
@@ -74,6 +102,13 @@ namespace FlyMe.Controllers
         // GET: Flights/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -95,6 +130,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DestAirport,SourceAirport,AirplaneId,Date")] Flight flight)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id != flight.Id)
             {
                 return NotFound();
@@ -130,6 +172,13 @@ namespace FlyMe.Controllers
         // GET: Flights/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();

@@ -25,7 +25,7 @@ namespace FlyMe.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            checkIfLoginAndManager();
+            UsersController.CheckIfLoginAndManager(this, _context);
 
             int? recommendedDestAirportId = getRecommendedDestinationIdForCurrentUser();
             ViewBag.RecommendedTicket = getRecommendedTicketByDestFlightId(recommendedDestAirportId);
@@ -87,6 +87,8 @@ namespace FlyMe.Controllers
         // GET: Orders/MoreInfo/*id*
         public async Task<IActionResult> MoreInfo(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
             if (id == null)
             {
                 return NotFound();
@@ -116,6 +118,8 @@ namespace FlyMe.Controllers
         [HttpGet]
         public async Task<IActionResult> Search(DateTime? date, string from, string to, int maxPrice)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
             if (date.HasValue)
                 ViewBag.date = date.Value.ToString("yyyy-MM-dd");
 
@@ -147,6 +151,8 @@ namespace FlyMe.Controllers
         [HttpGet]
         public async Task<IActionResult> MostSoldFlightsView()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
             return View(await _context.Ticket.Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.Airplane)
                                              .Include(ticket => ticket.Flight)
@@ -167,6 +173,8 @@ namespace FlyMe.Controllers
         [HttpGet]
         public async Task<IActionResult> UserTicketsView(int userId)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
             int? currentUserId = HttpContext.Session.GetInt32("UserId");
 
             if (currentUserId == null)
@@ -269,22 +277,6 @@ namespace FlyMe.Controllers
                                                 .ThenInclude(Flight => Flight.DestAirport)
                                             .Where(ticket => (ticket.Buyer != null))
                                             .FirstOrDefault(ticket => ticket.Flight.DestAirport.ID == destAirportId);
-        }
-
-        private void checkIfLoginAndManager()
-        {
-            int? currentUserId = HttpContext.Session.GetInt32("UserId");
-
-            if (currentUserId != null)
-            {
-                var currentUser = _context.User.FirstOrDefault(u => u.ID == currentUserId);
-
-                if (currentUser != null)
-                {
-                    ViewBag.IsLogin = true;
-                    ViewBag.IsManager = currentUser.IsManager;
-                }
-            }
         }
     }
 }

@@ -22,12 +22,26 @@ namespace FlyMe.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             return View(await _context.User.ToListAsync());
         }
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -46,6 +60,13 @@ namespace FlyMe.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             return View();
         }
 
@@ -56,6 +77,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,UserName,Password,FirstName,LastName,Age,Email,IsManager")] User user)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -67,8 +95,8 @@ namespace FlyMe.Controllers
 
         // GET: Users/Create
         public IActionResult SignUp()
-
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View();
         }
 
@@ -76,6 +104,8 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp([Bind("ID,UserName,Password,FirstName,LastName,Age,Email")] User user)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
             if (ModelState.IsValid)
             {
                 user.IsManager = false;
@@ -89,6 +119,13 @@ namespace FlyMe.Controllers
         // GET: Users/Create
         public IActionResult SignUpAsManager()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             return View();
         }
 
@@ -96,6 +133,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUpAsManager([Bind("ID,UserName,Password,FirstName,Age,LastName,Email")] User user)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 user.IsManager = true;
@@ -109,6 +153,13 @@ namespace FlyMe.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -129,6 +180,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password,FirstName,LastName,Age,Email,IsManager")] User user)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id != user.ID)
             {
                 return NotFound();
@@ -160,6 +218,13 @@ namespace FlyMe.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -180,6 +245,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
@@ -188,22 +260,26 @@ namespace FlyMe.Controllers
 
         public ActionResult Login()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
             return View();
         }
 
         public ActionResult FailedLogin()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View("FailedLogin");
         }
 
         public ActionResult FailedLogout()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View("FailedLogout");
         }
 
-        [HttpPost]
         public ActionResult Logout()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             int? currentUserId = HttpContext.Session.GetInt32("UserId");
 
             if (currentUserId != null)
@@ -228,19 +304,39 @@ namespace FlyMe.Controllers
         public ActionResult Login([Bind("UserName,Password")] User loginCredentials)
         {
             var user = _context.User.SingleOrDefault(u => u.UserName.Equals(loginCredentials.UserName) && u.Password.Equals(loginCredentials.Password));
+
             if (user == null)
             {
                 return RedirectToAction("FailedLogin", "Users");
             }
 
             HttpContext.Session.SetInt32("UserId", user.ID);
-       
             return RedirectToAction("Index", "Home");
         }
 
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.ID == id);
+        }
+
+        /// <summary>
+        /// Used to check if there is a logged in user and if he is a manager
+        /// </summary>
+        public static void CheckIfLoginAndManager(Controller controller, FlyMeContext context)
+        {
+            int? currentUserId = controller.HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId != null)
+            {
+                var currentUser = context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    controller.ViewBag.IsLogin = true;
+                    controller.ViewBag.IsManager = currentUser.IsManager;
+                    controller.ViewBag.LoginUserName = currentUser.UserName;
+                }
+            }
         }
 
     }
