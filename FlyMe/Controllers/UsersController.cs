@@ -304,13 +304,13 @@ namespace FlyMe.Controllers
         public ActionResult Login([Bind("UserName,Password")] User loginCredentials)
         {
             var user = _context.User.SingleOrDefault(u => u.UserName.Equals(loginCredentials.UserName) && u.Password.Equals(loginCredentials.Password));
+
             if (user == null)
             {
                 return RedirectToAction("FailedLogin", "Users");
             }
 
             HttpContext.Session.SetInt32("UserId", user.ID);
-       
             return RedirectToAction("Index", "Home");
         }
 
