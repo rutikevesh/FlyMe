@@ -52,13 +52,86 @@
 <hr />
 
 <div class="container">
-    <div class="col-md-4">
-        <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
-    </div>
-    <div class="col-md-4">
-        <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
-    </div>
+    @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+    {
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
+        </div>
+    }
+    else
+    {
+        <div align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+    }
 </div>
+
+@if (ViewBag.RecommendedTicket != null)
+{
+    <hr />
+
+    <h2>Recommended Ticket to Order for you:</h2>
+    <h5>Based on users similar to you!</h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Flight Date
+                </th>
+                <th>
+                    Airplane Model
+                </th>
+                <th>
+                    Source Airport
+                </th>
+                <th>
+                    Destination Airport
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.Date
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.Airplane.Model
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.SourceAirport.Country, @ViewBag.RecommendedTicket.Flight.SourceAirport.City
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.DestAirport.Country, @ViewBag.RecommendedTicket.Flight.DestAirport.City
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Price
+                </td>
+                <td>
+                    <a asp-action="MoreInfo" asp-route-id="@ViewBag.RecommendedTicket.Id">More Info</a>
+                </td>
+                @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                {
+                    <td>
+                        <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Login to buy", "Login", "Users")
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+}
 
 <hr />
 
@@ -89,35 +162,38 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="MoreInfo" asp-route-id="@item.Id">More Info</a>
+                </td>
+                @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Flight.Date)
+                        <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
                     </td>
+                }
+                else
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+                        @Html.ActionLink("Login to buy", "Login", "Users")
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    @if (item.Buyer == null)
-                    {
-                        <td>
-                            <a asp-action="Buy" asp-route-id="@item.Id">Buy Now!</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            Sold
-                        </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

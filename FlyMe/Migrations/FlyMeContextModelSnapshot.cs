@@ -15,7 +15,7 @@ namespace FlyMe.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -109,6 +109,8 @@ namespace FlyMe.Migrations
             modelBuilder.Entity("FlyMe.Models.User", b =>
                 {
                     b.Property<int>("ID");
+
+                    b.Property<int>("Age");
 
                     b.Property<string>("Email")
                         .IsRequired();

@@ -202,16 +202,22 @@ namespace FlyMe.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Logout([Bind("UserName,Password")] User loginCredentials)
+        public ActionResult Logout()
         {
-            var user = _context.User.SingleOrDefault(u => u.UserName.Equals(loginCredentials.UserName) && u.Password.Equals(loginCredentials.Password));
-            if (user == null)
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId != null)
             {
-                return RedirectToAction("FailedLogout", "Users");
-            }
-            else  {
-                HttpContext.Session.Remove("UserId");
+                var currentUser = _context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    HttpContext.Session.Remove("UserId");
+                }
+                else
+                {
+                    return RedirectToAction("FailedLogout", "Users");
+                }
             }
 
             return RedirectToAction("Index", "Home");

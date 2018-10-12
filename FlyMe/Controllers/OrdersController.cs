@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlyMe.Data;
 using FlyMe.Models;
+using Accord.MachineLearning;
+using Accord.Math.Distances;
+using Microsoft.AspNetCore.Http;
 
 namespace FlyMe.Controllers
 {
@@ -22,6 +25,11 @@ namespace FlyMe.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
+            checkIfLoginAndManager();
+
+            int? recommendedDestAirportId = getRecommendedDestinationIdForCurrentUser();
+            ViewBag.RecommendedTicket = getRecommendedTicketByDestFlightId(recommendedDestAirportId);
+
             return View(await _context.Ticket.Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.Airplane)
                                              .Include(ticket => ticket.Flight)
@@ -48,9 +56,16 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             try
             {
-                ticketBought.Buyer = await _context.User.FirstOrDefaultAsync(m => m.ID == 1);
+                ticketBought.Buyer = await _context.User.FirstOrDefaultAsync(m => m.ID == currentUserId);
                 _context.Update(ticketBought);
                 await _context.SaveChangesAsync();
             }
@@ -66,7 +81,7 @@ namespace FlyMe.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserTicketsView));
         }
 
         // GET: Orders/MoreInfo/*id*
@@ -152,6 +167,13 @@ namespace FlyMe.Controllers
         [HttpGet]
         public async Task<IActionResult> UserTicketsView(int userId)
         {
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(await _context.Ticket.Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.Airplane)
                                              .Include(ticket => ticket.Flight)
@@ -162,9 +184,107 @@ namespace FlyMe.Controllers
                         ticket => ticket.Buyer.ID,
                         user => user.ID,
                         (ticket, user) => ticket)
-                    .Where(ticket => (ticket.Buyer.ID == 1))
+                    .Where(ticket => (ticket.Buyer.ID == currentUserId))
                     .OrderByDescending(ticket => ticket.Flight.Date)
                     .ToListAsync());
+        }
+
+        private int? getRecommendedDestinationIdForCurrentUser()
+        {
+            // Now we will create the K-Nearest Neighbors algorithm. For a given
+            // instance, its nearest 3 neighbors will be used to cast a decision.
+            const int k = 3;
+            var knn = new KNearestNeighbors<double[]>(k, distance: new SquareEuclidean());
+
+            var boughtTickets = _context.Ticket.Join(_context.User,
+                                                        ticket => ticket.Buyer.ID,
+                                                        user => user.ID,
+                                                        (ticket, user) => ticket)
+                                                    .Where(ticket => ticket.Buyer != null);
+
+            var ticketAndDestinationAirportList = boughtTickets
+                .Join(_context.Flight,
+                    ticket => ticket.Flight.Id,
+                    flight => flight.Id,
+                    (ticket, flight) => new { ticket, flight })
+                .Join(_context.Airport,
+                    ticketAndFlight => ticketAndFlight.flight.DestAirport.ID,
+                    airport => airport.ID,
+                    (ticketAndFlight, destAirport) => new { ticketAndFlight.ticket, destAirport })
+                .Select(ticketAndDestAirport => new { ticketAndDestAirport.ticket.Buyer, ticketAndDestAirport.destAirport });
+
+            // Check that we have enough data (less then k will throw exption)
+            if (ticketAndDestinationAirportList.Count() <= k)
+            {
+                return null;
+            }
+
+            LinkedList<double[]> usersAge = new LinkedList<double[]>();
+            LinkedList<int> destAirportsId = new LinkedList<int>();
+
+            foreach (var item in ticketAndDestinationAirportList)
+            {
+                double[] userAgeArray = new double[] { item.Buyer.Age };
+                usersAge.AddLast(userAgeArray);
+
+                destAirportsId.AddLast(item.destAirport.ID);
+            }
+
+            double[][] inputs = usersAge.Select(a => a.ToArray()).ToArray();
+            int[] outputs = destAirportsId.ToArray();
+
+            // Learning given inputs of ages of users and outputs of destination flights of them
+            knn.Learn(inputs, outputs);
+
+            // Get the current login user info
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId != null)
+            {
+                var currentUser = _context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    // Decide where the current user would like to travel to
+                    double[] currentUserAge = new double[] { currentUser.Age };
+                    return knn.Decide(currentUserAge);
+                }
+            }
+
+            return null;
+        }
+
+        private Ticket getRecommendedTicketByDestFlightId(int? destAirportId)
+        {
+            if (destAirportId == null)
+            {
+                return null;
+            }
+
+            return _context.Ticket.Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.Airplane)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.SourceAirport)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                                            .Where(ticket => (ticket.Buyer != null))
+                                            .FirstOrDefault(ticket => ticket.Flight.DestAirport.ID == destAirportId);
+        }
+
+        private void checkIfLoginAndManager()
+        {
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId != null)
+            {
+                var currentUser = _context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    ViewBag.IsLogin = true;
+                    ViewBag.IsManager = currentUser.IsManager;
+                }
+            }
         }
     }
 }
