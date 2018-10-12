@@ -201,7 +201,6 @@ namespace FlyMe.Controllers
             return View("FailedLogout");
         }
 
-        [HttpPost]
         public ActionResult Logout()
         {
             int? currentUserId = HttpContext.Session.GetInt32("UserId");
@@ -241,6 +240,25 @@ namespace FlyMe.Controllers
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.ID == id);
+        }
+
+        /// <summary>
+        /// Used to check if there is a logged in user and if he is a manager
+        /// </summary>
+        public static void CheckIfLoginAndManager(Controller controller, FlyMeContext context)
+        {
+            int? currentUserId = controller.HttpContext.Session.GetInt32("UserId");
+
+            if (currentUserId != null)
+            {
+                var currentUser = context.User.FirstOrDefault(u => u.ID == currentUserId);
+
+                if (currentUser != null)
+                {
+                    controller.ViewBag.IsLogin = true;
+                    controller.ViewBag.IsManager = currentUser.IsManager;
+                }
+            }
         }
 
     }
