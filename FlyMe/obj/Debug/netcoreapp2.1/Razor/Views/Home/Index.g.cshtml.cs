@@ -69,7 +69,7 @@ using FlyMe.Models;
             WriteLiteral("\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n");
             EndContext();
             BeginContext(126, 639, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5af800b3fc024796b39b7138a2c492a0", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7396d256a8af4115990150051c248d2e", async() => {
                 BeginContext(132, 380, true);
                 WriteLiteral(@"
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -84,7 +84,7 @@ using FlyMe.Models;
     ");
                 EndContext();
                 BeginContext(512, 63, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "fb8015a6cebc49e2aa060b542e18f39d", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "13e84624bcbb4b1e9d61af1e232f1366", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -119,7 +119,7 @@ using FlyMe.Models;
             WriteLiteral("\r\n\r\n\r\n");
             EndContext();
             BeginContext(771, 4254, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ca6118a68ab945b596b344a310f4a92a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4959ce262b5a4590b99095042a0aa2ef", async() => {
                 BeginContext(777, 1256, true);
                 WriteLiteral(@"
     <header font-family=""CardoBold"">
@@ -147,7 +147,7 @@ using FlyMe.Models;
                 WriteLiteral("pt>\r\n\r\n            </article>\r\n\r\n        </div>\r\n        <div class=\"column right\">\r\n\r\n            <section>\r\n                <figure>\r\n                    <video width=\"600\" height=\"450\" controls autoplay>\r\n                        ");
                 EndContext();
                 BeginContext(2033, 87, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("source", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "eca07f443ea44b199a4c4a5e51e2e26c", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("source", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "b1bf07b36a8a4c4995f17212a43425fd", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

@@ -21,6 +21,7 @@ namespace FlyMe.Controllers
 
         public IActionResult Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View();
         }
 

@@ -66,7 +66,7 @@ using FlyMe.Models;
             WriteLiteral("\r\n<h2>Index</h2>\r\n\r\n<p>\r\n    ");
             EndContext();
             BeginContext(111, 37, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fecd821ae6d84543ba77b101c5cd37bb", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4ceda4eccaef4ea49845d3174eb00363", async() => {
                 BeginContext(134, 10, true);
                 WriteLiteral("Create New");
                 EndContext();
@@ -226,7 +226,7 @@ using FlyMe.Models;
             WriteLiteral("\r\n            </td>\r\n            <td>\r\n                ");
             EndContext();
             BeginContext(1638, 53, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a8ced31815543c3900e353e5e43f91d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "267aa33c9a744ec18ebdc5e01bbd6958", async() => {
                 BeginContext(1683, 4, true);
                 WriteLiteral("Edit");
                 EndContext();
@@ -261,7 +261,7 @@ using FlyMe.Models;
             WriteLiteral(" |\r\n                ");
             EndContext();
             BeginContext(1711, 59, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "84e6701cc9cd4a9d896fdd366a2ffa57", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b07b00f1b0dd4bb38d85cece50881821", async() => {
                 BeginContext(1759, 7, true);
                 WriteLiteral("Details");
                 EndContext();
@@ -296,7 +296,7 @@ using FlyMe.Models;
             WriteLiteral(" |\r\n                ");
             EndContext();
             BeginContext(1790, 57, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "787e1355f42a4b3baa285813f9813f30", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8f3b891f61064cf59876615f2b257c4a", async() => {
                 BeginContext(1837, 6, true);
                 WriteLiteral("Delete");
                 EndContext();
