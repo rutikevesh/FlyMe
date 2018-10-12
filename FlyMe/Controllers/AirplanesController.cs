@@ -54,7 +54,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Capacity")] Airplane airplane)
+        public async Task<IActionResult> Create([Bind("Id,Capacity,Model")] Airplane airplane)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Capacity")] Airplane airplane)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Capacity,Model")] Airplane airplane)
         {
             if (id != airplane.Id)
             {
