@@ -15,7 +15,7 @@ namespace FlyMe.Controllers
         private readonly FlyMeContext _context;
 
         public FlightsController(FlyMeContext context)
-        { 
+        {
             _context = context;
         }
 
@@ -29,10 +29,7 @@ namespace FlyMe.Controllers
                 return Unauthorized();
             }
 
-            var flyMeContext = _context.Flight.Include(f => f.Airplane)
-                .Include(a => a.DestAirport)
-                .Include(s => s.SourceAirport);
-				
+            var flyMeContext = _context.Flight.Include(f => f.Airplane);
             return View(await flyMeContext.ToListAsync());
         }
 
@@ -53,8 +50,7 @@ namespace FlyMe.Controllers
 
             var flight = await _context.Flight
                 .Include(f => f.Airplane)
-                .Include(a => a.DestAirport)
-                .Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (flight == null)
             {
                 return NotFound();
@@ -74,9 +70,8 @@ namespace FlyMe.Controllers
             }
 
             ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id");
-            ViewData["DestAirport"] = new SelectList(_context.Airport, "DestAirportId", "DestAirportId");
-            ViewData["SourceAirport"] = new SelectList(_context.Airport, "SourceAirportId", "SourceAirportId");
-                return View();
+            ViewData["DestAirport"] = new SelectList(_context.Airport);
+            return View();
         }
 
         // POST: Flights/Create
@@ -84,7 +79,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
+        public async Task<IActionResult> Create([Bind("Id,SourceAirportName,DestAirportName,DestAirport,SourceAirport,AirplaneId,Date")] Flight flight)
         {
             UsersController.CheckIfLoginAndManager(this, _context);
 
@@ -92,21 +87,16 @@ namespace FlyMe.Controllers
             {
                 return Unauthorized();
             }
-			
-            if (SourceAirportId != 0 && DestAirportId != 0 && AirplaneId != 0 && time != null)
-            {
-                Flight flight = new Flight();
-                flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.ID.Equals(SourceAirportId));
-                flight.DestAirport = _context.Airport.SingleOrDefault(a => a.ID.Equals(DestAirportId));
-                flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(AirplaneId));
-                flight.Id = id;
-                flight.Date = time;
+
+            flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName));
+                flight.DestAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(flight.AirplaneId));
                 _context.Add(flight);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-                return View(flight);
-            }
-            else { return View(); }
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id", flight.AirplaneId);
+            ViewData["DestAirport"] = new SelectList(_context.Airport, flight.DestAirport);
+            return View(flight);
         }
 
         // GET: Flights/Edit/5
@@ -124,14 +114,12 @@ namespace FlyMe.Controllers
                 return NotFound();
             }
 
-            var flight = await _context.Flight
-   .Include(f => f.Airplane)
-   .Include(a => a.DestAirport)
-   .Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
+            var flight = await _context.Flight.FindAsync(id);
             if (flight == null)
             {
                 return NotFound();
             }
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id", flight.AirplaneId);
             return View(flight);
         }
 
@@ -140,7 +128,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DestAirport,SourceAirport,AirplaneId,Date")] Flight flight)
         {
             UsersController.CheckIfLoginAndManager(this, _context);
 
@@ -148,13 +136,6 @@ namespace FlyMe.Controllers
             {
                 return Unauthorized();
             }
-			
-            //var flight = await _context.Flight.FindAsync(id);
-            var flight = await _context.Flight
-				.Include(f => f.Airplane)
-				.Include(a => a.DestAirport)
-				.Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
-
 
             if (id != flight.Id)
             {
@@ -165,16 +146,11 @@ namespace FlyMe.Controllers
             {
                 try
                 {
-                    if (SourceAirportId != 0 && DestAirportId != 0 && AirplaneId != 0 && time != null)
-                    {
-                        flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.ID.Equals(SourceAirportId));
-                        flight.DestAirport = _context.Airport.SingleOrDefault(a => a.ID.Equals(DestAirportId));
-                        flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(AirplaneId));
-                        flight.Id = id;
-                        flight.Date = time;
-                        _context.Update(flight);
-                        await _context.SaveChangesAsync();
-                    } else { return View(); }
+                    _context.Update(flight);
+                    await _context.SaveChangesAsync();
+                    flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName)); flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                    flight.DestAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                    flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(flight.AirplaneId));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -189,6 +165,7 @@ namespace FlyMe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id", flight.AirplaneId);
             return View(flight);
         }
 
@@ -209,8 +186,7 @@ namespace FlyMe.Controllers
 
             var flight = await _context.Flight
                 .Include(f => f.Airplane)
-                .Include(a => a.DestAirport)
-                .Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (flight == null)
             {
                 return NotFound();

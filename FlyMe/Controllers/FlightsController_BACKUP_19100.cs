@@ -22,6 +22,7 @@ namespace FlyMe.Controllers
         // GET: Flights
         public async Task<IActionResult> Index()
         {
+<<<<<<< HEAD
             UsersController.CheckIfLoginAndManager(this, _context);
 
             if (ViewBag.IsManager == null || !ViewBag.IsManager)
@@ -29,10 +30,12 @@ namespace FlyMe.Controllers
                 return Unauthorized();
             }
 
+            var flyMeContext = _context.Flight.Include(f => f.Airplane);
+=======
             var flyMeContext = _context.Flight.Include(f => f.Airplane)
                 .Include(a => a.DestAirport)
                 .Include(s => s.SourceAirport);
-				
+>>>>>>> pr/13
             return View(await flyMeContext.ToListAsync());
         }
 
@@ -86,13 +89,18 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
         {
+<<<<<<< HEAD
             UsersController.CheckIfLoginAndManager(this, _context);
 
             if (ViewBag.IsManager == null || !ViewBag.IsManager)
             {
                 return Unauthorized();
             }
-			
+
+            flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.SourceAirportName));
+                flight.DestAirport = _context.Airport.SingleOrDefault(a => a.Acronyms.Equals(flight.DestAirportName));
+                flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(flight.AirplaneId));
+=======
             if (SourceAirportId != 0 && DestAirportId != 0 && AirplaneId != 0 && time != null)
             {
                 Flight flight = new Flight();
@@ -101,6 +109,7 @@ namespace FlyMe.Controllers
                 flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(AirplaneId));
                 flight.Id = id;
                 flight.Date = time;
+>>>>>>> pr/13
                 _context.Add(flight);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -142,19 +151,20 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
         {
+<<<<<<< HEAD
             UsersController.CheckIfLoginAndManager(this, _context);
 
             if (ViewBag.IsManager == null || !ViewBag.IsManager)
             {
                 return Unauthorized();
             }
-			
+=======
             //var flight = await _context.Flight.FindAsync(id);
             var flight = await _context.Flight
-				.Include(f => f.Airplane)
-				.Include(a => a.DestAirport)
-				.Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
-
+.Include(f => f.Airplane)
+.Include(a => a.DestAirport)
+.Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
+>>>>>>> pr/13
 
             if (id != flight.Id)
             {
