@@ -37,6 +37,16 @@ namespace FlyMe.Controllers
             return View(await flyMeContext.ToListAsync());
         }
 
+        public IActionResult Search(int Price, int LuggageWeight, int Id)
+        {
+            var tickets = _context.Ticket.AsQueryable();
+            if (Price != 0) tickets = tickets.Where(s => s.Price.Equals(Price));
+            if (LuggageWeight != 0) tickets = tickets.Where(s => s.LuggageWeight.Equals(LuggageWeight));
+            if (Id != 0 && Id != null) tickets = tickets.Where(s => s.Id.Equals(Id));
+            var result = tickets.ToList(); // execute query
+            return View(result);
+        }
+
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
