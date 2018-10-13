@@ -15,18 +15,11 @@ namespace FlyMe.Models
         public Flight Flight { get; set; }
 
         [Required]
-        public int FlightId { get; set;}
-
-        [Required]
         public int Price { get; set; }
-
-        [Required]
-        public string Seat { get; set; }
 
         public int LuggageWeight { get; set; }
 
         public User Buyer { get; set; }
-
-        public int UserId { get; set; }
+        
     }
 }

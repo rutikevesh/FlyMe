@@ -1,7 +1,8 @@
 ﻿@model FlyMe.Models.Ticket
 
 @{
-    ViewData["Title"] = "Details";}
+    ViewData["Title"] = "Details";
+}
 
 <!DOCTYPE html>
 
@@ -17,22 +18,10 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Flight)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Flight.DestAirport)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Seat)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Seat)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.LuggageWeight)
@@ -41,10 +30,25 @@
             @Html.DisplayFor(model => model.LuggageWeight)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Buyer)
+            @Html.DisplayNameFor(model => model.LuggageWeight)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Buyer.Email)
+            @Html.DisplayFor(model => model.LuggageWeight)
+        </dd>
+        <dt>
+            Buyer Name
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buyer.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Flight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.SourceAirport)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Date)
         </dd>
     </dl>
 </div>

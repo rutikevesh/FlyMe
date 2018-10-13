@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
+
 <!DOCTYPE html>
 
 <html>
@@ -18,19 +19,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Flight)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Seat)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LuggageWeight)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Buyer)
+                Buyer Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight)
             </th>
             <th></th>
         </tr>
@@ -39,19 +37,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Flight.DestAirport)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Seat)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LuggageWeight)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Buyer.Email)
+                @Html.DisplayFor(modelItem => item.Buyer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Acronyms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.Date)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

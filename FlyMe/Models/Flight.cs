@@ -19,16 +19,9 @@ namespace FlyMe.Models
         public Airport SourceAirport { get; set; }
 
         [Required]
-        public String DestAirportName { get; set; }
-
-        [Required]
-        public String SourceAirportName { get; set; }
-
         public Airplane Airplane { get; set; }
 
         [Required]
-        public int AirplaneId { get; set; }
-
         public DateTime Date { get; set; }
 
     }

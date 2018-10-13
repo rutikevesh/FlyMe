@@ -1,7 +1,8 @@
 ﻿@model FlyMe.Models.Flight
 
 @{
-    ViewData["Title"] = "Create";}
+    ViewData["Title"] = "Create";
+}
 
 <!DOCTYPE html>
 
@@ -19,22 +20,20 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DestAirport" class="control-label"></label>
-                <input asp-for="DestAirport" class="form-control" />
-                <span asp-validation-for="DestAirport" class="text-danger" ></span>
+                <label class="control-label">Source Airport Id</label>
+                <input type="number" class="form-control" name="SourceAirportId" />
             </div>
             <div class="form-group">
-                <label asp-for="SourceAirport" class="control-label"></label>
-                <input asp-for="SourceAirport" class="form-control" />
-                <span asp-validation-for="SourceAirport" class="text-danger"></span>
+                <label class="control-label">Destionation Airport Id</label>
+                <input type="number" class="form-control" name="DestAirportId" />
             </div>
             <div class="form-group">
-                <label asp-for="AirplaneId" class="control-label"></label>
-                <select asp-for="AirplaneId" class ="form-control" asp-items="ViewBag.AirplaneId"></select>
+                <label class="control-label">Airplane Id</label>
+                <input type="number" class="form-control" name="AirplaneId" />
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <label class="control-label">Date</label>
+                <input type="date" class="form-control" name="time" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
