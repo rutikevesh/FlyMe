@@ -58,8 +58,7 @@ namespace FlyMe.Controllers
                         airport.numberOfVisitors += flight.TicketsSold;
                 }
             }
-            return View(mostVisitedAirports);
+            return Json(mostVisitedAirports);
         }
-
     }
 }
