@@ -15,7 +15,7 @@ namespace FlyMe.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -61,13 +61,19 @@ namespace FlyMe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AirplaneId");
+                    b.Property<int>("AirplaneId");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<int?>("DestAirportID");
 
+                    b.Property<string>("DestAirportName")
+                        .IsRequired();
+
                     b.Property<int?>("SourceAirportID");
+
+                    b.Property<string>("SourceAirportName")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -86,8 +92,6 @@ namespace FlyMe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BuyerID");
-
                     b.Property<int>("FlightId");
 
                     b.Property<int>("LuggageWeight");
@@ -97,11 +101,13 @@ namespace FlyMe.Migrations
                     b.Property<string>("Seat")
                         .IsRequired();
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerID");
-
                     b.HasIndex("FlightId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Ticket");
                 });
@@ -109,6 +115,8 @@ namespace FlyMe.Migrations
             modelBuilder.Entity("FlyMe.Models.User", b =>
                 {
                     b.Property<int>("ID");
+
+                    b.Property<int>("Age");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -136,7 +144,8 @@ namespace FlyMe.Migrations
                 {
                     b.HasOne("FlyMe.Models.Airplane", "Airplane")
                         .WithMany("Flights")
-                        .HasForeignKey("AirplaneId");
+                        .HasForeignKey("AirplaneId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlyMe.Models.Airport", "DestAirport")
                         .WithMany()
@@ -149,13 +158,14 @@ namespace FlyMe.Migrations
 
             modelBuilder.Entity("FlyMe.Models.Ticket", b =>
                 {
-                    b.HasOne("FlyMe.Models.User", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerID");
-
                     b.HasOne("FlyMe.Models.Flight", "Flight")
                         .WithMany()
                         .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlyMe.Models.User", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

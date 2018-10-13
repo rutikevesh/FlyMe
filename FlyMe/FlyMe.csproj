@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20181005154105_Initial.cs" />
+    <Compile Remove="Migrations\20181005154105_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20181012151832_initial.cs" />
+    <Compile Remove="Migrations\20181012151832_initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Accord.MachineLearning.GPL" Version="3.8.2-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.1">

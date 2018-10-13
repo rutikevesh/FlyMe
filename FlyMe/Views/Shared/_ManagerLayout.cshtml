@@ -41,8 +41,16 @@
                     </ul>
                     <aside>
                         <ul class="nav navbar-nav" id="userButtonsInLayout">
-                            <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
-                            <li><a asp-area="" asp-controller="Users" asp-action="SignUp">Sign Up</a></li>
+                            @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                            {
+                                <li><a asp-area="" asp-controller="Orders" asp-action="UserTicketsView">@ViewBag.LoginUserDisplayName</a></li>
+                                <li><a asp-area="" asp-controller="Users" asp-action="Logout">Logout</a></li>
+                            }
+                            else
+                            {
+                                <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
+                                <li><a asp-area="" asp-controller="Users" asp-action="SignUp">Sign Up</a></li>
+                            }
                         </ul>
                     </aside>
                 </div>
@@ -50,7 +58,7 @@
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Airplanes" asp-action="Index">Airplanes</a></li>
                         <li><a asp-area="" asp-controller="Airports" asp-action="Index">Airports</a></li>
-                        <li><a asp-area="" asp-controller="Flight" asp-action="Index">Flight</a></li>
+                        <li><a asp-area="" asp-controller="Flights" asp-action="Index">Flight</a></li>
                         <li><a asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a></li>
                         <li><a asp-area="" asp-controller="Users" asp-action="Index">Users</a></li>
                     </ul>

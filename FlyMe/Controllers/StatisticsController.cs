@@ -21,11 +21,12 @@ namespace FlyMe.Controllers
 
         public IActionResult Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
             return View();
         }
 
         [AllowAnonymous]
-        public ActionResult Stats()
+        public ActionResult StatsGraph()
         {
             var mostSoldFlights = _context.Ticket.Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.Airplane)
@@ -45,7 +46,7 @@ namespace FlyMe.Controllers
             var mostVisitedAirports = (from acronyms in _context.Airport.Select(airport => airport.Acronyms)
                                        select new CountryVisitorsAmount
                                        {
-                                           AirportAcronims = acronyms,
+                                           AirportAcronims = acronyms.ToString(),
                                            numberOfVisitors = 0
                                        }).ToList();
 
@@ -53,12 +54,47 @@ namespace FlyMe.Controllers
             {
                 foreach (var airport in mostVisitedAirports)
                 {
-                    if (flight.Flight.DestAirport.Acronyms == airport.AirportAcronims)
+                    if (flight.Flight.DestAirport.Acronyms.ToString() == airport.AirportAcronims)
                         airport.numberOfVisitors += flight.TicketsSold;
                 }
             }
-            return View(mostVisitedAirports);
+            return Json(mostVisitedAirports);
         }
 
+        [AllowAnonymous]
+        public ActionResult StatsPie()
+        {
+            var mostSoldFlights = _context.Ticket.Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.Airplane)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.SourceAirport)
+                                             .Include(ticket => ticket.Flight)
+                                                .ThenInclude(Flight => Flight.DestAirport)
+                                                 .Where(ticket => (ticket.Buyer != null))
+                                                .GroupBy(ticket => ticket.Flight)
+                                                .Select(o => new SoldFlightsView
+                                                {
+                                                    Flight = o.Key,
+                                                    TicketsSold = o.Count()
+                                                })
+                                                .OrderByDescending(o => o.TicketsSold)
+                                                .ToList();
+            var mostVisitedAirports = (from acronyms in _context.Airport.Select(airport => airport.Acronyms)
+                                       select new CountryVisitorsAmount
+                                       {
+                                           AirportAcronims = acronyms.ToString(),
+                                           numberOfVisitors = 0
+                                       }).ToList();
+
+            foreach (var flight in mostSoldFlights)
+            {
+                foreach (var airport in mostVisitedAirports)
+                {
+                    if (flight.Flight.DestAirport.Acronyms.ToString() == airport.AirportAcronims)
+                        airport.numberOfVisitors += flight.TicketsSold;
+                }
+            }
+            return Json(mostVisitedAirports);
+        }
     }
 }
