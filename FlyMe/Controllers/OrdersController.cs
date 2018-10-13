@@ -120,12 +120,11 @@ namespace FlyMe.Controllers
         {
             UsersController.CheckIfLoginAndManager(this, _context);
 
+            // Keep the search variables
             if (date.HasValue)
                 ViewBag.date = date.Value.ToString("yyyy-MM-dd");
-
             ViewBag.from = from;
             ViewBag.to = to;
-
             if (maxPrice > 0)
                 ViewBag.maxPrice = maxPrice;
 
@@ -153,6 +152,16 @@ namespace FlyMe.Controllers
         {
             UsersController.CheckIfLoginAndManager(this, _context);
 
+            // Keep the searched variables
+            if (TempData["date"] != null)
+                ViewBag.date = TempData["date"].ToString();
+            if (TempData["from"] != null)
+                ViewBag.from = TempData["from"].ToString();
+            if (TempData["to"] != null)
+                ViewBag.to = TempData["to"].ToString();
+            if (TempData["maxPrice"] != null)
+                ViewBag.maxPrice = Convert.ToInt32(TempData["maxPrice"]);
+
             return View(await _context.Ticket.Include(ticket => ticket.Flight)
                                                 .ThenInclude(Flight => Flight.Airplane)
                                              .Include(ticket => ticket.Flight)
@@ -174,6 +183,16 @@ namespace FlyMe.Controllers
         public async Task<IActionResult> UserTicketsView(int userId)
         {
             UsersController.CheckIfLoginAndManager(this, _context);
+
+            // Keep the searched variables
+            if (TempData["date"] != null)
+                ViewBag.date = TempData["date"].ToString();
+            if (TempData["from"] != null)
+                ViewBag.from = TempData["from"].ToString();
+            if (TempData["to"] != null)
+                ViewBag.to = TempData["to"].ToString();
+            if (TempData["maxPrice"] != null)
+                ViewBag.maxPrice = Convert.ToInt32(TempData["maxPrice"]);
 
             int? currentUserId = HttpContext.Session.GetInt32("UserId");
 
