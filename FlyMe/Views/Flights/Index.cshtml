@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<FlyMe.Models.Flight>
 
 @{
-    ViewData["Title"] = "Index";}
+    ViewData["Title"] = "Index";
+}
 
 <!DOCTYPE html>
 
@@ -18,16 +19,13 @@
     <thead>
         <tr>
             <th>
-                Dest
-                @Html.DisplayNameFor(model => model.DestAirport.Acronyms)
+                Airplane Model
             </th>
             <th>
-                Source
-                @Html.DisplayNameFor(model => model.SourceAirport.Acronyms)
+               Destination Acronyms
             </th>
             <th>
-                Plane
-                @Html.DisplayNameFor(model => model.Airplane.Model)
+                Source Acronyms
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
@@ -38,16 +36,15 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <th>
+                @Html.DisplayFor(modelItem => item.Airplane.Model)
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.DestAirport.Acronyms)
-            </td>
-
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.SourceAirport.Acronyms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Airplane.Id)
-            </td>
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>

@@ -1,7 +1,8 @@
 ﻿@model FlyMe.Models.Flight
 
 @{
-    ViewData["Title"] = "Dyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy";}
+    ViewData["Title"] = "Edit";
+}
 
 <!DOCTYPE html>
 
@@ -20,28 +21,28 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="DestAirport" class="control-label"></label>
-                <input asp-for="DestAirport" class="form-control" />
-                <span asp-validation-for="DestAirport" class="text-danger"></span>
+                <label class="control-label">Source Airport Id</label>
+                <input type="number" class="form-control" name="SourceAirportId" />
+                <span asp-validation-for="Id" class="text-danger" name="SourceAirportId"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SourceAirport" class="control-label"></label>
-                <input asp-for="SourceAirport" class="form-control" />
-                <span asp-validation-for="SourceAirport" class="text-danger"></span>
+                <label class="control-label">Destionation Airport Id</label>
+                <input type="number" class="form-control" name="DestAirportId" />
+                <span asp-validation-for="Id" class="text-danger" name="DestAirportId"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AirplaneId" class="control-label"></label>
-                <select asp-for="AirplaneId" class="form-control" asp-items="ViewBag.AirplaneId"></select>
-                <span asp-validation-for="AirplaneId" class="text-danger"></span>
+                <label class="control-label">Airplane Id</label>
+                <input type="number" class="form-control" name="AirplaneId" />
+                <span asp-validation-for="Id" class="text-danger" name="AirplaneId"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+                </div>
         </form>
     </div>
 </div>
