@@ -334,7 +334,7 @@ namespace FlyMe.Controllers
                 {
                     controller.ViewBag.IsLogin = true;
                     controller.ViewBag.IsManager = currentUser.IsManager;
-                    controller.ViewBag.LoginUserName = currentUser.UserName;
+                    controller.ViewBag.LoginUserDisplayName = $"{currentUser.FirstName} {currentUser.LastName}";
                 }
             }
         }
