@@ -67,6 +67,10 @@
             <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
         </div>
     }
+    @{TempData["date"] = ViewBag.date;}
+    @{TempData["from"] = ViewBag.from;}
+    @{TempData["to"] = ViewBag.to;}
+    @{TempData["maxPrice"] = ViewBag.maxPrice;}
 </div>
 
 @if (ViewBag.RecommendedTicket != null)
