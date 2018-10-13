@@ -4,50 +4,205 @@
     ViewData["Title"] = "Orders";
 }
 
-<h2>Avaliable Tickets to Order:</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Flight Date
-            </th>
-            <th>
-                Airplane Model
-            </th>
-            <th>
-                Source Airport
-            </th>
-            <th>
-                Destination Airport
-            </th>
-            <th>
-                Price
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>a
-                @Html.DisplayFor(modelItem => item.Flight.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Buy" asp-route-id="@item.Id">Buy Now!</a>
-            </td>
-        </tr>
+@using (Html.BeginForm("Search", "Orders", FormMethod.Get))
+{
+    <div class="container">
+        <div>
+            <div class="form-group col-md-2">
+                <div>
+                    Flight Date:
+                </div>
+                <div>
+                    <input type="date" name="date" value="@ViewBag.date" />
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <div>
+                    From:
+                </div>
+                <div>
+                    <input type="text" name="from" value="@ViewBag.from" />
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <div>
+                    To:
+                </div>
+                <div>
+                    <input type="text" name="to" value="@ViewBag.to" />
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <div>
+                    Maximum Price:
+                </div>
+                <div>
+                    <input type="number" name="maxPrice" value="@ViewBag.maxPrice" />
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <div>
+                    <input type="submit" value="Search" class="btn btn-primary" style="position: absolute; top: 16px" />
+                </div>
+            </div>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+
+<hr />
+
+<div class="container">
+    @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+    {
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+        <div class="col-md-6" align="center">
+            <input type="button" value="Show my bought tickets" class="btn btn-primary" onclick="location.href='@Url.Action("UserTicketsView", "Orders")'" />
+        </div>
+    }
+    else
+    {
+        <div align="center">
+            <input type="button" value="Show most sold flights" class="btn btn-primary" onclick="location.href='@Url.Action("MostSoldFlightsView", "Orders")'" />
+        </div>
+    }
+    @{TempData["date"] = ViewBag.date;}
+    @{TempData["from"] = ViewBag.from;}
+    @{TempData["to"] = ViewBag.to;}
+    @{TempData["maxPrice"] = ViewBag.maxPrice;}
+</div>
+
+@if (ViewBag.RecommendedTicket != null)
+{
+    <hr />
+
+    <h2>Recommended Ticket to Order for you:</h2>
+    <h5>Based on users similar to you!</h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Flight Date
+                </th>
+                <th>
+                    Airplane Model
+                </th>
+                <th>
+                    Source Airport
+                </th>
+                <th>
+                    Destination Airport
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.Date
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.Airplane.Model
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.SourceAirport.Country, @ViewBag.RecommendedTicket.Flight.SourceAirport.City
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Flight.DestAirport.Country, @ViewBag.RecommendedTicket.Flight.DestAirport.City
+                </td>
+                <td>
+                    @ViewBag.RecommendedTicket.Price
+                </td>
+                <td>
+                    <a asp-action="MoreInfo" asp-route-id="@ViewBag.RecommendedTicket.Id">More Info</a>
+                </td>
+                @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                {
+                    <td>
+                        <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Login to buy", "Login", "Users")
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+}
+
+<hr />
+
+@if (Model.Count() > 0)
+{
+    <h2>@Model.Count() Avaliable Tickets to Order:</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Flight Date
+                </th>
+                <th>
+                    Airplane Model
+                </th>
+                <th>
+                    Source Airport
+                </th>
+                <th>
+                    Destination Airport
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Airplane.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Country), @Html.DisplayFor(modelItem => item.Flight.SourceAirport.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.DestAirport.Country), @Html.DisplayFor(modelItem => item.Flight.DestAirport.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="MoreInfo" asp-route-id="@item.Id">More Info</a>
+                </td>
+                @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                {
+                    <td>
+                        <a asp-action="Buy" asp-route-id="@ViewBag.RecommendedTicket.Id">Buy Now!</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Login to buy", "Login", "Users")
+                    </td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>Sorry, no avaliable Tickets to Display. Try different search.</h2>
+}

@@ -22,18 +22,41 @@ namespace FlyMe.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             var flyMeContext = _context.Ticket
                 .Include(t => t.Buyer)
                 .Include(t => t.Flight)
                 .Include(t => t.Flight.SourceAirport);
 
-
             return View(await flyMeContext.ToListAsync());
+        }
+
+        public IActionResult Search(int Price, int LuggageWeight, int Id)
+        {
+            var tickets = _context.Ticket.AsQueryable();
+            if (Price != 0) tickets = tickets.Where(s => s.Price.Equals(Price));
+            if (LuggageWeight != 0) tickets = tickets.Where(s => s.LuggageWeight.Equals(LuggageWeight));
+            if (Id != 0 && Id != null) tickets = tickets.Where(s => s.Id.Equals(Id));
+            var result = tickets.ToList(); // execute query
+            return View(result);
         }
 
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -55,6 +78,13 @@ namespace FlyMe.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             ViewData["UserId"] = new SelectList(_context.User, "ID", "Email");
             ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport");
             return View();
@@ -67,6 +97,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int FlightId, int UserId, int id, int LuggageWeight, int price)
         {
+			
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
             if (FlightId != 0 & UserId != 0 && LuggageWeight != 0 && price != 0)
             {
                 Ticket ticket = new Ticket();
@@ -87,6 +124,13 @@ namespace FlyMe.Controllers
         // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -113,7 +157,15 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int FlightId,int Price,int LuggageWeight, int UserId)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+			
             var ticket = await _context.Ticket.FindAsync(id);
+			
             if (id != ticket.Id)
             {
                 return NotFound();
@@ -156,6 +208,13 @@ namespace FlyMe.Controllers
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FlyMe.Models.Ticket>
+﻿@model IEnumerable<FlyMe.Models.Flight>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,11 +15,11 @@
     <p>
         <a asp-action="Create">Create New</a>
     </p>
-    <form asp-controller="Tickets" asp-action="Search">
+    <form asp-controller="Flights" asp-action="Search">
         <p>
-            Price: <input type="text" name="Price">
-            Luggage Weight: <input type="text" name="FirstName">
-            Id: <input type="text" name="Id">
+            Airplane Id: <input type="text" name="AirplaneId">
+            Destination Airport Name: <input type="text" name="DestAirportName">
+            Source Airport Name: <input type="text" name="SourceAirportName">
             <input type="submit" value="Search">
         </p>
     </form>
@@ -27,16 +27,16 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Price)
+                    Airplane Model
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LuggageWeight)
+                    Destination Acronyms
                 </th>
                 <th>
-                    Buyer Name
+                    Source Acronyms
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Flight)
+                    @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th></th>
             </tr>
@@ -45,20 +45,17 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Airplane.Model)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.DestAirport.Acronyms)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.SourceAirport.Acronyms)
+                    </th>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LuggageWeight)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Buyer.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Acronyms)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Flight.Date)
+                        @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

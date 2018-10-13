@@ -19,15 +19,39 @@ namespace FlyMe.Controllers
             _context = context;
         }
 
+        public IActionResult Search(int Id, string Model, int Capacity)
+        {
+            var airplanes = _context.Airplane.AsQueryable();
+            if (Id != null && Id != 0) airplanes = airplanes.Where(s => s.Id.Equals(Id));
+            if (Model != null) airplanes = airplanes.Where(s => s.Model.StartsWith(Model));
+            if (Capacity != 0) airplanes = airplanes.Where(s => s.Capacity.Equals(Capacity));
+            var result = airplanes.ToList(); // execute query
+            return View(result);
+        }
+
         // GET: Airplanes
         public async Task<IActionResult> Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             return View(await _context.Airplane.ToListAsync());
         }
 
         // GET: Airplanes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -46,6 +70,13 @@ namespace FlyMe.Controllers
         // GET: Airplanes/Create
         public IActionResult Create()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             return View();
         }
 
@@ -56,6 +87,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Capacity,Model")] Airplane airplane)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(airplane);
@@ -68,6 +106,13 @@ namespace FlyMe.Controllers
         // GET: Airplanes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -88,6 +133,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Capacity,Model")] Airplane airplane)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id != airplane.Id)
             {
                 return NotFound();
@@ -119,6 +171,13 @@ namespace FlyMe.Controllers
         // GET: Airplanes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();

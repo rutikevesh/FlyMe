@@ -22,15 +22,30 @@ namespace FlyMe.Controllers
         // GET: Flights
         public async Task<IActionResult> Index()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             var flyMeContext = _context.Flight.Include(f => f.Airplane)
                 .Include(a => a.DestAirport)
                 .Include(s => s.SourceAirport);
+				
             return View(await flyMeContext.ToListAsync());
         }
 
         // GET: Flights/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -51,10 +66,29 @@ namespace FlyMe.Controllers
         // GET: Flights/Create
         public IActionResult Create()
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id");
             ViewData["DestAirport"] = new SelectList(_context.Airport, "DestAirportId", "DestAirportId");
             ViewData["SourceAirport"] = new SelectList(_context.Airport, "SourceAirportId", "SourceAirportId");
                 return View();
+        }
+
+        public IActionResult Search(string AirplaneModel, string DestAirportName, string SourceAirportName)
+        {
+            var flights = _context.Flight.Include(f => f.Airplane)
+                .Include(a => a.DestAirport)
+                .Include(s => s.SourceAirport).AsQueryable();
+            if (AirplaneModel != null) flights = flights.Where(s => s.Airplane.Model.Equals(AirplaneModel));
+            if (DestAirportName != null) flights = flights.Where(s => s.DestAirport.Acronyms.Equals(DestAirportName));
+            if (SourceAirportName != null) flights = flights.Where(s => s.SourceAirport.Acronyms.Equals(SourceAirportName));
+            var result = flights.ToList(); // execute query
+            return View(result);
         }
 
         // POST: Flights/Create
@@ -64,6 +98,13 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+			
             if (SourceAirportId != 0 && DestAirportId != 0 && AirplaneId != 0 && time != null)
             {
                 Flight flight = new Flight();
@@ -83,6 +124,13 @@ namespace FlyMe.Controllers
         // GET: Flights/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -106,11 +154,19 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+			
             //var flight = await _context.Flight.FindAsync(id);
             var flight = await _context.Flight
-.Include(f => f.Airplane)
-.Include(a => a.DestAirport)
-.Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
+				.Include(f => f.Airplane)
+				.Include(a => a.DestAirport)
+				.Include(s => s.SourceAirport).FirstOrDefaultAsync(m => m.Id == id);
+
 
             if (id != flight.Id)
             {
@@ -151,6 +207,13 @@ namespace FlyMe.Controllers
         // GET: Flights/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            UsersController.CheckIfLoginAndManager(this, _context);
+
+            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            {
+                return Unauthorized();
+            }
+
             if (id == null)
             {
                 return NotFound();

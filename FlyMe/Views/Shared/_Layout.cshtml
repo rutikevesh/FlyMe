@@ -41,8 +41,16 @@
                     </ul>
                     <aside>
                         <ul class="nav navbar-nav" id="userButtonsInLayout">
-                            <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
-                            <li><a asp-area="" asp-controller="Users" asp-action="SignUp">Sign Up</a></li>
+                            @if (ViewBag.IsLogin != null && ViewBag.IsLogin)
+                            {
+                                <li><a asp-area="" asp-controller="Orders" asp-action="UserTicketsView">@ViewBag.LoginUserDisplayName</a></li>
+                                <li><a asp-area="" asp-controller="Users" asp-action="Logout">Logout</a></li>
+                            }
+                            else
+                            {
+                                <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
+                                <li><a asp-area="" asp-controller="Users" asp-action="SignUp">Sign Up</a></li>
+                            }
                         </ul>
                     </aside>
                 </div>
