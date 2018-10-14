@@ -79,6 +79,18 @@ namespace FlyMe.Controllers
                 return View();
         }
 
+        public IActionResult Search(string AirplaneModel, string DestAirportName, string SourceAirportName)
+        {
+            var flights = _context.Flight.Include(f => f.Airplane)
+                .Include(a => a.DestAirport)
+                .Include(s => s.SourceAirport).AsQueryable();
+            if (AirplaneModel != null) flights = flights.Where(s => s.Airplane.Model.Equals(AirplaneModel));
+            if (DestAirportName != null) flights = flights.Where(s => s.DestAirport.Acronyms.Equals(DestAirportName));
+            if (SourceAirportName != null) flights = flights.Where(s => s.SourceAirport.Acronyms.Equals(SourceAirportName));
+            var result = flights.ToList(); // execute query
+            return View(result);
+        }
+
         // POST: Flights/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

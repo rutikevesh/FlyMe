@@ -19,6 +19,16 @@ namespace FlyMe.Controllers
             _context = context;
         }
 
+        public IActionResult Search(int Id, string Model, int Capacity)
+        {
+            var airplanes = _context.Airplane.AsQueryable();
+            if (Id != null && Id != 0) airplanes = airplanes.Where(s => s.Id.Equals(Id));
+            if (Model != null) airplanes = airplanes.Where(s => s.Model.StartsWith(Model));
+            if (Capacity != 0) airplanes = airplanes.Where(s => s.Capacity.Equals(Capacity));
+            var result = airplanes.ToList(); // execute query
+            return View(result);
+        }
+
         // GET: Airplanes
         public async Task<IActionResult> Index()
         {

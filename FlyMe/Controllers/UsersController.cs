@@ -24,7 +24,9 @@ namespace FlyMe.Controllers
         {
             UsersController.CheckIfLoginAndManager(this, _context);
 
-            if (ViewBag.IsManager == null || !ViewBag.IsManager)
+            if (ViewBag.IsManager != null) 
+               if (!ViewBag.IsManager)
+
             {
                 return Unauthorized();
             }
@@ -113,8 +115,18 @@ namespace FlyMe.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }
+			
+            return View();
+        }
 
-            return View(user);
+        public IActionResult Search(string UserName, string FirstName, string LastName)
+        {
+            var users = _context.User.AsQueryable();
+            if (UserName != null) users = users.Where(s => s.UserName.Equals(UserName));
+            if (FirstName != null) users = users.Where(s => s.FirstName.StartsWith(FirstName));
+            if (LastName != null) users = users.Where(s => s.LastName.EndsWith(LastName));
+            var result = users.ToList(); // execute query
+            return View(result);
         }
 
         // GET: Users/Create
