@@ -84,9 +84,9 @@ namespace FlyMe.Controllers
             var flights = _context.Flight.Include(f => f.Airplane)
                 .Include(a => a.DestAirport)
                 .Include(s => s.SourceAirport).AsQueryable();
-            if (AirplaneModel != null) flights = flights.Where(s => s.Airplane.Model.Equals(AirplaneModel));
-            if (DestAirportName != null) flights = flights.Where(s => s.DestAirport.Acronyms.Equals(DestAirportName));
-            if (SourceAirportName != null) flights = flights.Where(s => s.SourceAirport.Acronyms.Equals(SourceAirportName));
+            if (AirplaneModel != null) flights = flights.Where(s => s.Airplane.Model.Contains(AirplaneModel));
+            if (DestAirportName != null) flights = flights.Where(s => s.DestAirport.Acronyms.Contains(DestAirportName));
+            if (SourceAirportName != null) flights = flights.Where(s => s.SourceAirport.Acronyms.Contains(SourceAirportName));
             var result = flights.ToList(); // execute query
             return View(result);
         }

@@ -122,9 +122,9 @@ namespace FlyMe.Controllers
         public IActionResult Search(string UserName, string FirstName, string LastName)
         {
             var users = _context.User.AsQueryable();
-            if (UserName != null) users = users.Where(s => s.UserName.Equals(UserName));
-            if (FirstName != null) users = users.Where(s => s.FirstName.StartsWith(FirstName));
-            if (LastName != null) users = users.Where(s => s.LastName.EndsWith(LastName));
+            if (UserName != null) users = users.Where(s => s.UserName.Contains(UserName));
+            if (FirstName != null) users = users.Where(s => s.FirstName.Contains(FirstName));
+            if (LastName != null) users = users.Where(s => s.LastName.Contains(LastName));
             var result = users.ToList(); // execute query
             return View(result);
         }
