@@ -13,7 +13,6 @@ namespace FlyMe.Models
         [Key]
         public int Id { get; set; }
 
-
         public Airport DestAirport { get; set; }
 
         public Airport SourceAirport { get; set; }

@@ -85,8 +85,7 @@ namespace FlyMe.Controllers
                 return Unauthorized();
             }
 
-            ViewData["UserId"] = new SelectList(_context.User, "ID", "Email");
-            ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport");
+            ViewBag.FlightID = new SelectList(_context.Flight, "Id", "Id");
             return View();
         }
 
@@ -95,30 +94,33 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int FlightId, int UserId, int id, int LuggageWeight, int price)
+        public ActionResult Create([Bind("Id,FlightID,Price,LuggageWeight")] Ticket ticket)
         {
-			
-            UsersController.CheckIfLoginAndManager(this, _context);
 
-            if (ViewBag.IsManager == null || !ViewBag.IsManager)
-            {
-                return Unauthorized();
-            }
-            if (FlightId != 0 & UserId != 0 && LuggageWeight != 0 && price != 0)
-            {
-                Ticket ticket = new Ticket();
-                ticket.Id = id;
-                ticket.Price = price;
-                ticket.LuggageWeight = LuggageWeight;
-                ticket.Flight = _context.Flight.SingleOrDefault(a => a.Id.Equals(FlightId));
-                ticket.Buyer = _context.User.SingleOrDefault(a => a.ID.Equals(UserId));
-                _context.Add(ticket);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-                ViewData["UserId"] = new SelectList(_context.User, "ID", "Email", ticket.Buyer.ID);
-                ViewData["FlightId"] = new SelectList(_context.Flight, "Id", "DestAirport", ticket.Flight.Id);
-                return View(ticket);
-            } else { return View(); }
+         UsersController.CheckIfLoginAndManager(this, _context);
+
+        if (ViewBag.IsManager == null || !ViewBag.IsManager)
+        {
+            return Unauthorized();
+        }
+
+        if (ticket.FlightID == 0)
+        {
+                ViewBag.FlightID = new SelectList(_context.Flight, "Id", "Id");
+                ViewBag.ErrorMessage = "You must choose a flight!";
+                return View("Create");
+        }
+
+        if (ModelState.IsValid)
+        {
+            _context.Ticket.Add(ticket);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+            ViewBag.FlightID = new SelectList(_context.Flight, "Id", "Id");
+            return View(ticket);
         }
 
         // GET: Tickets/Edit/5
