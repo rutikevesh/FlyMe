@@ -23,7 +23,7 @@ namespace FlyMe.Controllers
         {
             var airplanes = _context.Airplane.AsQueryable();
             if (Id != null && Id != 0) airplanes = airplanes.Where(s => s.Id.Equals(Id));
-            if (Model != null) airplanes = airplanes.Where(s => s.Model.StartsWith(Model));
+            if (Model != null) airplanes = airplanes.Where(s => s.Model.Contains(Model));
             if (Capacity != 0) airplanes = airplanes.Where(s => s.Capacity.Equals(Capacity));
             var result = airplanes.ToList(); // execute query
             return View(result);

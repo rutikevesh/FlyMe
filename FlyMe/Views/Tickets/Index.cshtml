@@ -36,9 +36,11 @@
                     Buyer Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Flight)
+                    @Html.DisplayNameFor(model => model.FlightID)
                 </th>
-                <th></th>
+                <th>
+                    Date
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +57,7 @@
                         @Html.DisplayFor(modelItem => item.Buyer.FirstName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Flight.SourceAirport.Acronyms)
+                        @Html.DisplayFor(modelItem => item.FlightID)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Flight.Date)

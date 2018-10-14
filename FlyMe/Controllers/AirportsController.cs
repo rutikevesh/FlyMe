@@ -22,9 +22,9 @@ namespace FlyMe.Controllers
         public IActionResult Search(string Acronyms, string City, string Country)
         {
             var airports = _context.Airport.AsQueryable();
-            if (Country != null) airports = airports.Where(s => s.Country.Equals(Country));
-            if (Acronyms != null) airports = airports.Where(s => s.Acronyms.StartsWith(Acronyms));
-            if (City != null) airports = airports.Where(s => s.City.EndsWith(City));
+            if (Country != null) airports = airports.Where(s => s.Country.Contains(Country));
+            if (Acronyms != null) airports = airports.Where(s => s.Acronyms.Contains(Acronyms));
+            if (City != null) airports = airports.Where(s => s.City.Contains(City));
             var result = airports.ToList(); // execute query
             return View(result);
         }
