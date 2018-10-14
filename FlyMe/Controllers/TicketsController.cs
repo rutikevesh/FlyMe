@@ -96,7 +96,6 @@ namespace FlyMe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Id,FlightID,Price,LuggageWeight")] Ticket ticket)
         {
-
          UsersController.CheckIfLoginAndManager(this, _context);
 
         if (ViewBag.IsManager == null || !ViewBag.IsManager)
@@ -119,8 +118,7 @@ namespace FlyMe.Controllers
             return RedirectToAction("Index");
         }
 
-            ViewBag.FlightID = new SelectList(_context.Flight, "Id", "Id");
-            return View(ticket);
+            return RedirectToAction("Index");
         }
 
         // GET: Tickets/Edit/5

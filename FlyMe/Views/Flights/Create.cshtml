@@ -20,16 +20,31 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Source Airport Id</label>
-                <input type="number" class="form-control" name="SourceAirportId" />
+                <label class="control-label">>Source Airport Id</label>
+                @Html.DropDownList("SourceAirportID", null, htmlAttributes: new { @class = "form-control" })
+
+                @if (ViewBag.SourceAirportErrorMessage != null)
+                {
+                    <label class="text-danger">@ViewBag.SourceAirportErrorMessage</label>
+                }
             </div>
             <div class="form-group">
-                <label class="control-label">Destionation Airport Id</label>
-                <input type="number" class="form-control" name="DestAirportId" />
+                <label class="control-label">>Destination Airport Id</label>
+                @Html.DropDownList("DestAirportID", null, htmlAttributes: new { @class = "form-control" })
+
+                @if (ViewBag.DestAirportErrorMessage != null)
+                {
+                    <label class="text-danger">@ViewBag.DestAirportErrorMessage</label>
+                }
             </div>
             <div class="form-group">
                 <label class="control-label">Airplane Id</label>
-                <input type="number" class="form-control" name="AirplaneId" />
+                @Html.DropDownList("AirplaneID", null, htmlAttributes: new { @class = "form-control" })
+
+                @if (ViewBag.AirplaneErrorMessage != null)
+                {
+                    <label class="text-danger">@ViewBag.AirplaneErrorMessage</label>
+                }
             </div>
             <div class="form-group">
                 <label class="control-label">Date</label>

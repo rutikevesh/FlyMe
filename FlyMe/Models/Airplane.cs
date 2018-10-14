@@ -10,8 +10,6 @@ namespace FlyMe.Models
 
         public int Capacity { get; set; }
 
-        public List<Flight> Flights { get; set; }
-
         public string Model { get; set; }
     }
 }

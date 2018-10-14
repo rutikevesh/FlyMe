@@ -12,7 +12,6 @@ namespace FlyMe.Models
 {
     public class User 
     {
-
         [Required]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

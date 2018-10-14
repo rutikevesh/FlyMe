@@ -73,10 +73,10 @@ namespace FlyMe.Controllers
                 return Unauthorized();
             }
 
-            ViewData["AirplaneId"] = new SelectList(_context.Airplane, "Id", "Id");
-            ViewData["DestAirport"] = new SelectList(_context.Airport, "DestAirportId", "DestAirportId");
-            ViewData["SourceAirport"] = new SelectList(_context.Airport, "SourceAirportId", "SourceAirportId");
-                return View();
+            ViewBag.SourceAirportID = new SelectList(_context.Airport, "ID", "Acronyms");
+            ViewBag.DestAirportID = new SelectList(_context.Airport, "ID", "Acronyms");
+            ViewBag.AirplaneID = new SelectList(_context.Airplane, "Id", "Model");
+            return View();
         }
 
         public IActionResult Search(string AirplaneModel, string DestAirportName, string SourceAirportName)
@@ -96,7 +96,7 @@ namespace FlyMe.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, int SourceAirportId, int DestAirportId, int AirplaneId, DateTime time)
+        public ActionResult Create([Bind("Id,SourceAirportID,DestAirportID,AirplaneID,Date")] Flight flight)
         {
             UsersController.CheckIfLoginAndManager(this, _context);
 
@@ -104,21 +104,31 @@ namespace FlyMe.Controllers
             {
                 return Unauthorized();
             }
-			
-            if (SourceAirportId != 0 && DestAirportId != 0 && AirplaneId != 0 && time != null)
+
+            if (flight.SourceAirportID == 0 || flight.DestAirportID == 0 || flight.AirplaneID == 0)
             {
-                Flight flight = new Flight();
-                flight.SourceAirport = _context.Airport.SingleOrDefault(a => a.ID.Equals(SourceAirportId));
-                flight.DestAirport = _context.Airport.SingleOrDefault(a => a.ID.Equals(DestAirportId));
-                flight.Airplane = _context.Airplane.SingleOrDefault(a => a.Id.Equals(AirplaneId));
-                flight.Id = id;
-                flight.Date = time;
-                _context.Add(flight);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-                return View(flight);
+                if (flight.SourceAirportID == 0)
+                    ViewBag.SourceAirportErrorMessage = "You must choose a source airport!";
+                if (flight.DestAirportID == 0)
+                    ViewBag.DestAirportErrorMessage = "You must choose a destination airport!";
+                if (flight.AirplaneID == 0)
+                    ViewBag.AirplaneErrorMessage = "You must choose an airplane!";
+
+                ViewBag.SourceAirportID = new SelectList(_context.Airport, "ID", "Acronyms");
+                ViewBag.DestAirportID = new SelectList(_context.Airport, "ID", "Acronyms");
+                ViewBag.AirplaneID = new SelectList(_context.Airplane, "Id", "Model");
+                return View("Create");
             }
-            else { return View(); }
+
+            if (ModelState.IsValid)
+            {
+                _context.Flight.Add(flight);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Flights/Edit/5
